@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.adam.sprzedawca" >
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name=".SprzedawcaActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ZamowieniaActivity"
+            android:label="@string/title_activity_zamowienia" >
+        </activity>
+        <activity
+            android:name=".KlienciActivity"
+            android:label="@string/title_activity_klienci" >
+        </activity>
+        <activity
+            android:name=".TowaryActivity"
+            android:label="@string/title_activity_towary" >
+        </activity>
+        <activity
+            android:name=".DodajKlientaActivity"
+            android:label="@string/title_activity_dodaj_klienta" >
+        </activity>
+        <activity
+            android:name=".DodajZamowienieActivity"
+            android:label="@string/title_activity_dodaj_zamowienie" >
+        </activity>
+        <activity
+            android:name=".DodajTowarActivity"
+            android:label="@string/title_activity_dodaj_towar" >
+        </activity>
+    </application>
+
+</manifest>

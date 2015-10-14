@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">Sprzedawca</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="button">Lista zamówień</string>
+    <string name="button2">Lista klientów</string>
+    <string name="button3">Lista towarów</string>
+    <string name="title_activity_zamowienia">Zamówienia</string>
+    <string name="title_activity_klienci">Lista klientów</string>
+    <string name="title_activity_towary">Lista towarów</string>
+    <string name="title_activity_dodaj_klienta">Dodaj Klienta</string>
+    <string name="dodaj_zamownienie">Dodaj zamówienie</string>
+    <string name="dodaj_klienta">Dodaj klienta</string>
+    <string name="dodaj_towar">Dodaj towar</string>
+    <string name="title_activity_dodaj_zamowienie">Dodaj Zamowienie</string>
+    <string name="title_activity_dodaj_towar">Dodaj Towar</string>
+    <string name="nazwa">Nazwa</string>
+    <string name="adres">Adres</string>
+    <string name="miejscowosc">Miejscowość</string>
+    <string name="kod">Kod</string>
+    <string name="nip">NIP</string>
+    <string name="regon">REGON:</string>
+    <string name="telefon">Telefon:</string>
+    <string name="zatwierdz">Zatwierdź</string>
+    <string name="dodaj">Dodaj</string>
+    <string name="ulica">Ulica</string>
+</resources>
