@@ -12,7 +12,7 @@ import java.util.List;
  * Created by Adam on 2015-10-03.
  */
 public class Klient {
-    private int id;
+    private Integer id = null;
     private String nazwa;
     private String adres;
     private String miejscowosc;
@@ -101,6 +101,7 @@ public class Klient {
 
     public void dodajKlienta(Context context){
         DbHelper dbHelper = DbHelper.getDbHelper(context);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
 
         ContentValues wartosci = new ContentValues();
         wartosci.put("nazwa", getNazwa() );
@@ -110,14 +111,37 @@ public class Klient {
         wartosci.put("nip",getNip());
         wartosci.put("regon",getRegon());
         wartosci.put("telefon", getTelefon());
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
         db.insertOrThrow("klienci", null, wartosci);
+    }
+
+    public void aktualizujKlienta(Context context){
+        DbHelper dbHelper = DbHelper.getDbHelper(context);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        String[] args={""+getId()};
+        ContentValues wartosci = new ContentValues();
+
+        wartosci.put("nazwa",getNazwa());
+        wartosci.put("adres", getAdres());
+        wartosci.put("miejscowosc", getMiejscowosc());
+        wartosci.put("kod",getKod());
+        wartosci.put("nip",getNip());
+        wartosci.put("regon",getRegon());
+        wartosci.put("telefon", getTelefon());
+        db.update("klienci", wartosci, "id=?", args);
+    }
+
+    public void kasujKlienta(Context context, Integer id){
+        DbHelper dbHelper = DbHelper.getDbHelper(context);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        String[] args = {""+id};
+        db.delete("klienci", "id=?", args);
     }
 
     public static List<Klient> dajWszystkie(Context context){
 
         List<Klient> klienci = new LinkedList<Klient>();
-        String[] kolumny = {"nazwa","adres","miejscowosc","kod","nip","regon","telefon"};
+        String[] kolumny = {"id","nazwa","adres","miejscowosc","kod","nip","regon","telefon"};
 
         DbHelper dbHelper = DbHelper.getDbHelper(context);
         SQLiteDatabase db = dbHelper.getReadableDatabase();
@@ -125,6 +149,7 @@ public class Klient {
         Cursor cursor = db.query("klienci", kolumny, null, null, null, null, null);
         while (cursor.moveToNext()){
             Klient klient = new Klient();
+            klient.setId(cursor.getInt(0));
             klient.setNazwa(cursor.getString(0));
             klient.setAdres(cursor.getString(1));
             klient.setMiejscowosc(cursor.getString(2));
@@ -136,6 +161,37 @@ public class Klient {
         }
 
         return klienci;
+    }
+
+    public void wczytajKlienta(Context context, Integer id){
+//        Klient klient = new Klient();
+        DbHelper dbHelper = DbHelper.getDbHelper(context);
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        String[] kolumny = {"id","nazwa","adres","miejscowosc","kod","nip","regon","telefon"};
+        String[] args = {""+id};
+
+        Cursor cursor = db.query("klienci",kolumny,"id = ?",args, null, null, null);
+        if (cursor != null) {
+//            klient.setId(cursor.getInt(0));
+//            klient.setNazwa(cursor.getString(0));
+//            klient.setAdres(cursor.getString(1));
+//            klient.setMiejscowosc(cursor.getString(2));
+//            klient.setKod(cursor.getString(3));
+//            klient.setNip(cursor.getString(4));
+//            klient.setRegon(cursor.getString(5));
+//            klient.setTelefon(cursor.getString(6));
+
+            setId(cursor.getInt(0));
+            setNazwa(cursor.getString(0));
+            setAdres(cursor.getString(1));
+            setMiejscowosc(cursor.getString(2));
+            setKod(cursor.getString(3));
+            setNip(cursor.getString(4));
+            setRegon(cursor.getString(5));
+            setTelefon(cursor.getString(6));
+        }
+
+//        return klient;
     }
 
 
