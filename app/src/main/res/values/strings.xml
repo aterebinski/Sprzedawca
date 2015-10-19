@@ -15,14 +15,18 @@
     <string name="dodaj_towar">Dodaj towar</string>
     <string name="title_activity_dodaj_zamowienie">Dodaj Zamowienie</string>
     <string name="title_activity_dodaj_towar">Dodaj Towar</string>
-    <string name="nazwa">Nazwa</string>
-    <string name="adres">Adres</string>
-    <string name="miejscowosc">Miejscowość</string>
-    <string name="kod">Kod</string>
-    <string name="nip">NIP</string>
+    <string name="nazwa">Nazwa:</string>
+    <string name="adres">Adres:</string>
+    <string name="miejscowosc">Miejscowość:</string>
+    <string name="kod">Kod:</string>
+    <string name="nip">NIP:</string>
     <string name="regon">REGON:</string>
     <string name="telefon">Telefon:</string>
     <string name="zatwierdz">Zatwierdź</string>
     <string name="dodaj">Dodaj</string>
-    <string name="ulica">Ulica</string>
+    <string name="ulica">Ulica:</string>
+    <string name="cena">Cena:</string>
+    <string name="Dostepne">Dostępne:</string>
+    <string name="regal">Regał:</string>
+    <string name="polka">Półka:</string>
 </resources>
