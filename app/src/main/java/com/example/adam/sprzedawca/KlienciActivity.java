@@ -6,8 +6,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class KlienciActivity extends AppCompatActivity {
@@ -16,9 +19,13 @@ public class KlienciActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_klienci);
-        String tekst = "";
+//        String tekst = "";
 
-        TextView tv = (TextView) findViewById(R.id.textView1);
+        ArrayList<String> sKlienci= new ArrayList<>();
+        ListView listView = (ListView) findViewById(R.id.listView_Klienci);
+
+//        TextView tv = (TextView) findViewById(R.id.textView1);
+
 
         //przez kursory
 //        String[] kolumny = {"nazwa","adres","miejscowosc","kod","nip","regon","telefon"};
@@ -42,10 +49,16 @@ public class KlienciActivity extends AppCompatActivity {
         //obiektowo
         List<Klient> klienci = Klient.dajWszystkie(getApplicationContext());
         for (Klient klient:klienci){
-            tekst=tekst+"\n"+klient.getNazwa()+" | "+klient.getAdres()+" | "+klient.getMiejscowosc()+" | "+klient.getKod()+" | "+
-                    klient.getNip()+" | "+klient.getRegon()+" | "+klient.getTelefon();
+            String sKlient;
+//            tekst=tekst+"\n"+klient.getNazwa()+" | "+klient.getAdres()+" | "+klient.getMiejscowosc()+" | "+klient.getKod()+" | "+
+//                    klient.getNip()+" | "+klient.getRegon()+" | "+klient.getTelefon();
+            sKlient = klient.getNazwa()+" - ulica: "+klient.getAdres()+", "+klient.getKod()+" "+klient.getMiejscowosc()+", NIP: "+
+                    klient.getNip()+", REGON: "+klient.getRegon()+", telefon: "+klient.getTelefon();
+            sKlienci.add(sKlient);
         }
-        tv.setText(tekst);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,R.layout.row_klienci,R.id.textView_row_klienci,sKlienci);
+        listView.setAdapter(adapter);
+//        tv.setText(tekst);
     }
 
     @Override

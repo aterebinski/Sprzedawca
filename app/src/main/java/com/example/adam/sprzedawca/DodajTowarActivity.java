@@ -1,9 +1,14 @@
 package com.example.adam.sprzedawca;
 
+import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 
 public class DodajTowarActivity extends AppCompatActivity {
 
@@ -11,6 +16,41 @@ public class DodajTowarActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dodaj_towar);
+
+        final EditText fieldNazwa = (EditText) findViewById(R.id.editText_addTowar_nazwa);
+        final EditText fieldCena = (EditText) findViewById(R.id.editText_addTowar_cena);
+        final EditText fieldDostepne = (EditText) findViewById(R.id.editText_addTowar_dostepne);
+        final EditText fieldRegal = (EditText) findViewById(R.id.editText_addTowar_regal);
+        final EditText fieldPolka = (EditText) findViewById(R.id.editText_addTowar_polka);
+        Button buttonZatwierdz = (Button) findViewById(R.id.button_addTowar_zatwierdz);
+
+        View.OnClickListener onClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String nazwa = fieldNazwa.getText().toString();
+                Float cena = Float.parseFloat(fieldCena.getText().toString());
+                Float dostepne = Float.parseFloat(fieldDostepne.getText().toString());
+                Integer regal = Integer.getInteger(fieldRegal.getText().toString());
+                Integer polka = Integer.getInteger(fieldPolka.getText().toString());
+//                String[] kolumny = {"nazwa","cena","dostepne","regal","polka"};
+/*                ContentValues wartosci = new ContentValues();
+                wartosci.put("nazwa",nazwa);
+                wartosci.put("cena",cena);
+                wartosci.put("dostepne",dostepne);
+                wartosci.put("regal",regal);
+                wartosci.put("polka",polka);
+
+                DbHelper dbHelper = DbHelper.getDbHelper(getApplicationContext());
+                SQLiteDatabase db = dbHelper.getWritableDatabase();
+                db.insertOrThrow("towary",null,wartosci);*/
+
+                Towar towar = new Towar(nazwa,cena,dostepne,regal,polka);
+                towar.dodajTowar(getApplicationContext());
+                finish();
+            }
+        };
+        buttonZatwierdz.setOnClickListener(onClickListener);
+
     }
 
     @Override

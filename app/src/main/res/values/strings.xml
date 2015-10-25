@@ -29,4 +29,8 @@
     <string name="Dostepne">Dostępne:</string>
     <string name="regal">Regał:</string>
     <string name="polka">Półka:</string>
+    <string name="klient">Klient:</string>
+    <string name="towar">Towar:</string>
+    <string name="data">Data:</string>
+    <string name="sztuk">Sztuk:</string>
 </resources>

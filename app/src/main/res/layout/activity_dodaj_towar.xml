@@ -21,13 +21,13 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="@string/nazwa"
-                android:id="@+id/textView_addtowar_nazwa"
+                android:id="@+id/textView_addTowar_nazwa"
                 android:layout_column="0" />
 
             <EditText
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/editText"
+                android:id="@+id/editText_addTowar_nazwa"
                 android:layout_column="1" />
         </TableRow>
 
@@ -40,13 +40,13 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="@string/cena"
-                android:id="@+id/textView_addtowar_cena"
+                android:id="@+id/textView_addTowar_cena"
                 android:layout_column="0" />
 
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/editText2"
+                android:id="@+id/editText_addTowar_cena"
                 android:layout_column="1" />
         </TableRow>
 
@@ -59,13 +59,13 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="@string/Dostepne"
-                android:id="@+id/textView_addtowar_dostepne"
+                android:id="@+id/textView_addTowar_dostepne"
                 android:layout_column="0" />
 
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/editText3"
+                android:id="@+id/editText_addTowar_dostepne"
                 android:layout_column="1" />
         </TableRow>
 
@@ -78,13 +78,13 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="@string/regal"
-                android:id="@+id/textView_addtowar_regal"
+                android:id="@+id/textView_addTowar_regal"
                 android:layout_column="0" />
 
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/editText4"
+                android:id="@+id/editText_addTowar_regal"
                 android:layout_column="1" />
         </TableRow>
 
@@ -97,13 +97,13 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="@string/polka"
-                android:id="@+id/textView_addtowar_polka"
+                android:id="@+id/textView_addTowar_polka"
                 android:layout_column="0" />
 
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/editText5"
+                android:id="@+id/editText_addTowar_polka"
                 android:layout_column="1" />
         </TableRow>
 
@@ -115,7 +115,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/dodaj"
-                android:id="@+id/button_addtowar_zatwierdz"
+                android:id="@+id/button_addTowar_zatwierdz"
                 android:layout_column="1" />
         </TableRow>
     </TableLayout>

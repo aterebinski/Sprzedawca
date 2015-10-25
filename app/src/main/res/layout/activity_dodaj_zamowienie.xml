@@ -20,9 +20,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Medium Text"
-                android:id="@+id/textView_addzamowienie_"
+                android:text="@string/klient"
+                android:id="@+id/textView_addZamowienie_klient"
                 android:layout_column="0" />
+
+            <Spinner
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinner_addZamowienie_klient"
+                android:layout_column="1" />
+
         </TableRow>
 
         <TableRow
@@ -33,9 +40,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Medium Text"
-                android:id="@+id/textView2"
+                android:text="@string/towar"
+                android:id="@+id/textView_addZamowienie_towar"
                 android:layout_column="0" />
+
+            <Spinner
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinner_addZamowienie_towar"
+                android:layout_column="1" />
 
         </TableRow>
 
@@ -47,14 +60,26 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Medium Text"
-                android:id="@+id/textView3"
+                android:text="@string/data"
+                android:id="@+id/textView_addZamowienie_data"
                 android:layout_column="0" />
 
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/editText6"
+                android:id="@+id/editText_addZamowienie_data"
+                android:layout_column="1" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <DatePicker
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/datePicker"
                 android:layout_column="1" />
         </TableRow>
 
@@ -66,14 +91,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Medium Text"
-                android:id="@+id/textView4"
+                android:text="@string/sztuk"
+                android:id="@+id/textView_addZamowienie_sztuk"
                 android:layout_column="0" />
 
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/editText7"
+                android:id="@+id/editText_addZamowienie_sztuk"
                 android:layout_column="1" />
         </TableRow>
 
@@ -85,14 +110,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Medium Text"
-                android:id="@+id/textView5"
+                android:text="@string/cena"
+                android:id="@+id/textView_addZamowienie_cena"
                 android:layout_column="0" />
 
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/editText8"
+                android:id="@+id/editText_addZamowienie_cena"
                 android:layout_column="1" />
         </TableRow>
     </TableLayout>

@@ -150,15 +150,17 @@ public class Klient {
         while (cursor.moveToNext()){
             Klient klient = new Klient();
             klient.setId(cursor.getInt(0));
-            klient.setNazwa(cursor.getString(0));
-            klient.setAdres(cursor.getString(1));
-            klient.setMiejscowosc(cursor.getString(2));
-            klient.setKod(cursor.getString(3));
-            klient.setNip(cursor.getString(4));
-            klient.setRegon(cursor.getString(5));
-            klient.setTelefon(cursor.getString(6));
+            klient.setNazwa(cursor.getString(1));
+            klient.setAdres(cursor.getString(2));
+            klient.setMiejscowosc(cursor.getString(3));
+            klient.setKod(cursor.getString(4));
+            klient.setNip(cursor.getString(5));
+            klient.setRegon(cursor.getString(6));
+            klient.setTelefon(cursor.getString(7));
             klienci.add(klient);
         }
+
+        cursor.close();
 
         return klienci;
     }
@@ -182,13 +184,13 @@ public class Klient {
 //            klient.setTelefon(cursor.getString(6));
 
             setId(cursor.getInt(0));
-            setNazwa(cursor.getString(0));
-            setAdres(cursor.getString(1));
-            setMiejscowosc(cursor.getString(2));
-            setKod(cursor.getString(3));
-            setNip(cursor.getString(4));
-            setRegon(cursor.getString(5));
-            setTelefon(cursor.getString(6));
+            setNazwa(cursor.getString(1));
+            setAdres(cursor.getString(2));
+            setMiejscowosc(cursor.getString(3));
+            setKod(cursor.getString(4));
+            setNip(cursor.getString(5));
+            setRegon(cursor.getString(6));
+            setTelefon(cursor.getString(7));
         }
 
 //        return klient;

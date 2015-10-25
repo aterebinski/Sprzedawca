@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -114,20 +115,30 @@ public class Towar {
     public static List<Towar> dajWszystkie (Context context){
         DbHelper dbHelper = DbHelper.getDbHelper(context);
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        List<Towar> towary = null;
+        List<Towar> towary = new LinkedList<Towar>();
 
         String[] kolumny = {"id","nazwa","cena","dostepne","regal","polka"};
         Cursor kursor = db.query("towary",kolumny,null,null,null,null,null);
         while (kursor.moveToNext()){
             Towar towar = new Towar();
+
+//            towar.setId(kursor.getInt(0));
+//            towar.setNazwa(kursor.getString(0));
+//            towar.setCena(kursor.getFloat(0));
+//            towar.setDostepne(kursor.getFloat(1));
+//            towar.setRegal(kursor.getInt(1));
+//            towar.setPolka(kursor.getInt(2));
+
             towar.setId(kursor.getInt(0));
-            towar.setNazwa(kursor.getString(0));
-            towar.setCena(kursor.getFloat(0));
-            towar.setDostepne(kursor.getFloat(1));
-            towar.setRegal(kursor.getInt(1));
-            towar.setPolka(kursor.getInt(2));
+            towar.setNazwa(kursor.getString(1));
+            towar.setCena(kursor.getFloat(2));
+            towar.setDostepne(kursor.getFloat(3));
+            towar.setRegal(kursor.getInt(4));
+            towar.setPolka(kursor.getInt(5));
             towary.add(towar);
         }
+
+        kursor.close();
 
         return towary;
     }
