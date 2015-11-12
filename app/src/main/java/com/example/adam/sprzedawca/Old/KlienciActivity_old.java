@@ -1,24 +1,24 @@
-package com.example.adam.sprzedawca;
+package com.example.adam.sprzedawca.Old;
 
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
+
+import com.example.adam.sprzedawca.Adapter.KlienciRowAdapter;
+import com.example.adam.sprzedawca.Model.Klient;
+import com.example.adam.sprzedawca.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class KlienciActivity extends AppCompatActivity {
+public class KlienciActivity_old extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_klienci);
+        setContentView(R.layout.fragment_klienci);
 //        String tekst = "";
 
         ArrayList<String> sKlienci= new ArrayList<>();
@@ -56,7 +56,8 @@ public class KlienciActivity extends AppCompatActivity {
                     klient.getNip()+", REGON: "+klient.getRegon()+", telefon: "+klient.getTelefon();
             sKlienci.add(sKlient);
         }
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,R.layout.row_klienci,R.id.textView_row_klienci,sKlienci);
+//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,R.layout.row_klienci,R.id.textView_row_klienci,sKlienci);
+        KlienciRowAdapter adapter = new KlienciRowAdapter(this,R.layout.row_klienci,klienci);
         listView.setAdapter(adapter);
 //        tv.setText(tekst);
     }

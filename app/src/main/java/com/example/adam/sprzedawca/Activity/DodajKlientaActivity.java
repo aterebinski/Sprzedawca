@@ -1,4 +1,4 @@
-package com.example.adam.sprzedawca;
+package com.example.adam.sprzedawca.Activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -7,6 +7,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.example.adam.sprzedawca.Model.Klient;
+import com.example.adam.sprzedawca.R;
 
 public class DodajKlientaActivity extends AppCompatActivity {
 

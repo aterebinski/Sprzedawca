@@ -1,26 +1,25 @@
-package com.example.adam.sprzedawca;
+package com.example.adam.sprzedawca.Old;
 
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.support.v7.app.AppCompatActivity;
+import android.app.Activity;
+import android.app.Fragment;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
+
+import com.example.adam.sprzedawca.Adapter.TowaryRowAdapter;
+import com.example.adam.sprzedawca.Model.Towar;
+import com.example.adam.sprzedawca.R;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-public class TowaryActivity extends AppCompatActivity {
+public class TowaryActivity_old extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_towary);
+        setContentView(R.layout.fragment_towary);
 
         ListView lista = (ListView) findViewById(R.id.listView_Towary);
 //        TextView tv = (TextView) findViewById(R.id.textView_test);
@@ -33,7 +32,8 @@ public class TowaryActivity extends AppCompatActivity {
             }
         }
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.row_towary, R.id.textView_row_towary, stringTowary);
+//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.row_towary, R.id.textView_row_towary, stringTowary);
+        TowaryRowAdapter adapter = new TowaryRowAdapter(this,R.layout.row_towary,towary);
 
         lista.setAdapter(adapter);
 

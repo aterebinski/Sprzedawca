@@ -1,26 +1,33 @@
-package com.example.adam.sprzedawca;
+package com.example.adam.sprzedawca.Old;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
-public class SprzedawcaActivity extends AppCompatActivity {
+import com.example.adam.sprzedawca.Activity.DodajKlientaActivity;
+import com.example.adam.sprzedawca.Activity.DodajTowarActivity;
+import com.example.adam.sprzedawca.Activity.DodajZamowienieActivity;
+import com.example.adam.sprzedawca.Fragment.KlienciFragment;
+import com.example.adam.sprzedawca.R;
+import com.example.adam.sprzedawca.Fragment.TowaryFragment;
+import com.example.adam.sprzedawca.Fragment.ZamowieniaFragment;
+
+public class SprzedawcaActivity_old extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sprzedawca);
+        setContentView(R.layout.fragment_sprzedawca);
 
         Button btnZamowienia = (Button) findViewById(R.id.button_lista_zamowien);
         View.OnClickListener lZamowienia = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(SprzedawcaActivity.this,ZamowieniaActivity.class);
+                Intent i = new Intent(SprzedawcaActivity_old.this,ZamowieniaFragment.class);
                 startActivity(i);
             }
         };
@@ -30,7 +37,7 @@ public class SprzedawcaActivity extends AppCompatActivity {
         View.OnClickListener lKlienci = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(SprzedawcaActivity.this, KlienciActivity.class);
+                Intent i = new Intent(SprzedawcaActivity_old.this, KlienciFragment.class);
                 startActivity(i);
             }
         };
@@ -40,7 +47,7 @@ public class SprzedawcaActivity extends AppCompatActivity {
         View.OnClickListener lTowary = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(SprzedawcaActivity.this,TowaryActivity.class);
+                Intent i = new Intent(SprzedawcaActivity_old.this,TowaryFragment.class);
                 startActivity(i);
             }
         };
@@ -50,7 +57,7 @@ public class SprzedawcaActivity extends AppCompatActivity {
         View.OnClickListener lDodajZamowienie = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(SprzedawcaActivity.this, DodajZamowienieActivity.class);
+                Intent i = new Intent(SprzedawcaActivity_old.this, DodajZamowienieActivity.class);
                 startActivity(i);
             }
         };
@@ -60,7 +67,7 @@ public class SprzedawcaActivity extends AppCompatActivity {
         View.OnClickListener lDodajKlienta = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(SprzedawcaActivity.this,DodajKlientaActivity.class);
+                Intent i = new Intent(SprzedawcaActivity_old.this,DodajKlientaActivity.class);
                 startActivity(i);
             }
         };
@@ -70,7 +77,7 @@ public class SprzedawcaActivity extends AppCompatActivity {
         View.OnClickListener lDodajTowar = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(SprzedawcaActivity.this,DodajTowarActivity.class);
+                Intent i = new Intent(SprzedawcaActivity_old.this,DodajTowarActivity.class);
                 startActivity(i);
             }
         };

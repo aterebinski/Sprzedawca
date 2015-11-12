@@ -1,9 +1,11 @@
-package com.example.adam.sprzedawca;
+package com.example.adam.sprzedawca.Model;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+
+import com.example.adam.sprzedawca.Db.DbHelper;
 
 import java.util.LinkedList;
 import java.util.List;

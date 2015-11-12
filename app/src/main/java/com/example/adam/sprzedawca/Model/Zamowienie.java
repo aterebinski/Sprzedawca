@@ -1,11 +1,11 @@
-package com.example.adam.sprzedawca;
+package com.example.adam.sprzedawca.Model;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import org.w3c.dom.Text;
+import com.example.adam.sprzedawca.Db.DbHelper;
 
 import java.util.List;
 
@@ -15,7 +15,9 @@ import java.util.List;
 public class Zamowienie {
     private Integer id = null;
     private Integer klient_id;
+    private String klient_name;
     private Integer towar_id;
+    private String towar_name;
     private String data;
     private Float sztuk;
     private Float cena;
@@ -59,6 +61,22 @@ public class Zamowienie {
         return data;
     }
 
+    public String getKlient_name() {
+        return klient_name;
+    }
+
+    public void setKlient_name(String klient_name) {
+        this.klient_name = klient_name;
+    }
+
+    public String getTowar_name() {
+        return towar_name;
+    }
+
+    public void setTowar_name(String towar_name) {
+        this.towar_name = towar_name;
+    }
+
     public void setData(String data) {
         this.data = data;
     }
@@ -89,7 +107,7 @@ public class Zamowienie {
         wartosci.put("data", getData());
         wartosci.put("sztuk", getSztuk());
         wartosci.put("cena", getCena());
-        db.insertOrThrow("zamowienia",null, wartosci);
+        db.insertOrThrow("zamowienia", null, wartosci);
     }
 
     public void aktualizujZamowienie(Context context){
@@ -118,9 +136,17 @@ public class Zamowienie {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         List<Zamowienie> zamowienia = null;
         String[] kolumny = {"id","klient_id", "towar_id", "data","sztuk","cena"};
+        String[] klient_kolumny = {"nazwa"};
+        String[] klient_args = null;
+        String[] towar_kolumny = {"nazwa"};
+        String[] towar_args = null;
 
         Cursor cursor = db.query("zamowienie",kolumny,null, null, null, null, null );
         while(cursor.moveToNext()){
+            klient_args[0] = Integer.toString(cursor.getInt(1));
+            Cursor cursor_klient = db.query("klient",klient_kolumny,"id = ?", null, null, null, null );
+            towar_args[0] = Integer.toString(cursor.getInt(2));
+            Cursor cursor_towar = db.query("towar",klient_kolumny,"id = ?", null, null, null, null );
             Zamowienie zamowienie = new Zamowienie();
             zamowienie.setId(cursor.getInt(0));
             zamowienie.setKlient_id(cursor.getInt(1));
@@ -128,6 +154,8 @@ public class Zamowienie {
             zamowienie.setData(cursor.getString(0));
             zamowienie.setSztuk(cursor.getFloat(0));
             zamowienie.setCena(cursor.getFloat(1));
+            zamowienie.setKlient_name(cursor_klient.getString(0));
+            zamowienie.setTowar_name(cursor_towar.getString(0));
             zamowienia.add(zamowienie);
         }
         return zamowienia;

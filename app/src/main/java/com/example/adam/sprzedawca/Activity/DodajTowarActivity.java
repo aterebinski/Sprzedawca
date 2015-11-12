@@ -1,7 +1,5 @@
-package com.example.adam.sprzedawca;
+package com.example.adam.sprzedawca.Activity;
 
-import android.content.ContentValues;
-import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -9,6 +7,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.example.adam.sprzedawca.Model.Towar;
+import com.example.adam.sprzedawca.R;
 
 public class DodajTowarActivity extends AppCompatActivity {
 
