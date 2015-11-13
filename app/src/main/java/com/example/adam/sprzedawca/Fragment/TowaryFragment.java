@@ -1,6 +1,8 @@
 package com.example.adam.sprzedawca.Fragment;
 
 import android.app.Fragment;
+import android.content.Intent;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
+import com.example.adam.sprzedawca.Activity.DodajTowarActivity;
 import com.example.adam.sprzedawca.Adapter.TowaryRowAdapter;
 import com.example.adam.sprzedawca.Model.Towar;
 import com.example.adam.sprzedawca.R;
@@ -25,7 +28,7 @@ public class TowaryFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        FragmentActivity faActivity  = (FragmentActivity)    super.getActivity();
+        final FragmentActivity faActivity  = (FragmentActivity)    super.getActivity();
         // Replace LinearLayout by the type of the root element of the layout you're trying to load
         RelativeLayout llLayout    = (RelativeLayout)    inflater.inflate(R.layout.fragment_towary, container, false);
         // Of course you will want to faActivity and llLayout in the class and not this method to access them in the rest of
@@ -33,17 +36,17 @@ public class TowaryFragment extends Fragment {
 
         // Content of previous onCreate() here
         ListView lista = (ListView) llLayout.findViewById(R.id.listView_Towary);
-//        TextView tv = (TextView) findViewById(R.id.textView_test);
+
+        FloatingActionButton floatingActionButton = (FloatingActionButton) llLayout.findViewById(R.id.floatingActionButton_Towary);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(faActivity, DodajTowarActivity.class);
+                startActivity(intent);
+            }
+        });
 
         List<Towar> towary = Towar.dajWszystkie(faActivity.getApplicationContext());
-//        ArrayList<String> stringTowary = new ArrayList<>();
-//        if(towary.size()>0) {
-//            for (Towar towar : towary) {
-//                stringTowary.add(towar.getNazwa()+", cena: "+towar.getCena()+" zł, dostępne: "+towar.getDostepne()+"; położenie(regał/półka):"+towar.getRegal()+"/"+towar.getPolka());
-//            }
-//        }
-
-//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.row_towary, R.id.textView_row_towary, stringTowary);
         if(towary!=null) {
             TowaryRowAdapter adapter = new TowaryRowAdapter(faActivity.getApplicationContext(), R.layout.row_towary, towary);
             lista.setAdapter(adapter);
