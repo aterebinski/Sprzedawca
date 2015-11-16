@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.adam.sprzedawca" >
+    package="com.example.adam.sprzedawca">
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <activity
             android:name=".Activity.SprzedawcaActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -18,24 +18,21 @@
         </activity>
         <activity
             android:name=".Fragment.ZamowieniaFragment"
-            android:label="@string/title_activity_zamowienia" >
-        </activity>
+            android:label="@string/title_activity_zamowienia" />
         <activity
             android:name=".Fragment.TowaryFragment"
-            android:label="@string/title_activity_towary" >
-        </activity>
+            android:label="@string/title_activity_towary" />
         <activity
             android:name=".Activity.DodajKlientaActivity"
-            android:label="@string/title_activity_dodaj_klienta" >
-        </activity>
+            android:label="@string/title_activity_dodaj_klienta" />
         <activity
             android:name=".Activity.DodajZamowienieActivity"
-            android:label="@string/title_activity_dodaj_zamowienie" >
-        </activity>
+            android:label="@string/title_activity_dodaj_zamowienie" />
         <activity
             android:name=".Activity.DodajTowarActivity"
-            android:label="@string/title_activity_dodaj_towar" >
-        </activity>
+            android:label="@string/title_activity_dodaj_towar" />
+        <activity android:name=".Activity.WybierzKlientaActivity" />
+        <activity android:name=".Activity.WybierzTowarActivity"></activity>
     </application>
 
 </manifest>

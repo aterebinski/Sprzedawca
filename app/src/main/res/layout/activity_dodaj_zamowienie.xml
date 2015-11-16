@@ -24,11 +24,21 @@
                 android:id="@+id/textView_addZamowienie_klient"
                 android:layout_column="0" />
 
-            <Spinner
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/spinner_addZamowienie_klient"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/tV_wybranyKlient"
                 android:layout_column="1" />
+
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Wybierz"
+                android:id="@+id/bt_wybierzKlienta"
+                android:layout_column="2"
+                android:enabled="true" />
 
         </TableRow>
 
@@ -44,11 +54,21 @@
                 android:id="@+id/textView_addZamowienie_towar"
                 android:layout_column="0" />
 
-            <Spinner
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/spinner_addZamowienie_towar"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/tV_wybranyTowar"
                 android:layout_column="1" />
+
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Wybierz"
+                android:id="@+id/bt_wybierzTowar"
+                android:layout_column="2"
+                android:enabled="true" />
 
         </TableRow>
 
@@ -64,24 +84,17 @@
                 android:id="@+id/textView_addZamowienie_data"
                 android:layout_column="0" />
 
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/editText_addZamowienie_data"
-                android:layout_column="1" />
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
             <DatePicker
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/datePicker"
-                android:layout_column="1" />
+                android:layout_column="1"
+                android:calendarViewShown="false"
+                android:clickable="true"
+                android:datePickerMode="spinner" />
+
         </TableRow>
+
 
         <TableRow
             android:layout_width="match_parent"

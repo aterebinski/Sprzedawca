@@ -1,9 +1,11 @@
 package com.example.adam.sprzedawca.Activity;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,44 +27,28 @@ public class DodajZamowienieActivity extends AppCompatActivity {
         final EditText fieldSztuk = (EditText)findViewById(R.id.editText_addZamowienie_sztuk);
         final EditText fieldCena = (EditText)findViewById(R.id.editText_addZamowienie_cena);
         final EditText fieldData = (EditText)findViewById(R.id.editText_addZamowienie_data);
-        Spinner fieldKlient = (Spinner)findViewById(R.id.spinner_addZamowienie_klient);
-        Spinner fieldTowar = (Spinner)findViewById(R.id.spinner_addZamowienie_towar);
+        Button btnWybierzKlienta = (Button)findViewById(R.id.bt_wybierzKlienta);
+        Button btnWybierzTowar = (Button)findViewById(R.id.bt_wybierzTowar);
         Button buttonZatwierdz = (Button)findViewById(R.id.button_addZamowienie_zatwierdz);
+
+        btnWybierzKlienta.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),WybierzKlientaActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btnWybierzTowar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),WybierzTowarActivity.class);
+                startActivity(intent);
+            }
+        });
 
         List<Towar> towary = Towar.dajWszystkie(getApplicationContext());
         List<Klient> klienci = Klient.dajWszystkie(getApplicationContext());
-
-//        String array_spinner[];
-//        array_spinner=new String[5];
-//        array_spinner[0]="option 1";
-//        array_spinner[1]="option 2";
-//        array_spinner[2]="option 3";
-//        array_spinner[3]="option 4";
-//        array_spinner[4]="option 5";
-
-//        ArrayAdapter<Towar> adapterTowar = new ArrayAdapter<Towar>(getApplicationContext(),R.layout.spinner_row,R.id.textView_spinner_row,towary);
-        ArrayAdapter adapterTowar = new ArrayAdapter(getApplicationContext(),R.layout.spinner_row,R.id.textView_spinner_row,towary);
-//        ArrayAdapter adapterTowar = new ArrayAdapter(getApplicationContext(),R.layout.spinner_row,R.id.textView_spinner_row,array_spinner);
-//        ArrayAdapter<Towar> adapterTowar = new ArrayAdapter<Towar>(getApplicationContext(),R.layout.spinner_row,towary);
-        fieldTowar.setAdapter(adapterTowar);
-
-//        ArrayAdapter<Klient> adapterKlient = new ArrayAdapter<Klient>(getApplicationContext(),R.layout.row_towary,klienci);
-//        ArrayAdapter<Klient> adapterKlient = new ArrayAdapter<Klient>(getApplicationContext(),R.layout.spinner_row,R.id.textView_spinner_row,klienci);
-        ArrayAdapter adapterKlient = new ArrayAdapter(getApplicationContext(),R.layout.spinner_row,R.id.textView_spinner_row,klienci);
-        fieldKlient.setAdapter(adapterKlient);
-
-//        View.OnClickListener listener = new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Float sztuk = Float.parseFloat(fieldSztuk.getText().toString());
-//                Float cena = Float.parseFloat(fieldCena.getText().toString());
-//                String data = fieldData.getText().toString();
-//
-////                Zamowienie zamowienie = new
-//            }
-//        };
-//
-//        buttonZatwierdz.setOnClickListener(listener);
 
 
     }
