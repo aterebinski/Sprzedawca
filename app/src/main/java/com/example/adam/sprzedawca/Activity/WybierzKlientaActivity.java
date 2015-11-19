@@ -1,5 +1,6 @@
 package com.example.adam.sprzedawca.Activity;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -32,6 +33,10 @@ public class WybierzKlientaActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Klient klient = klienci.get(position);
+                Intent intent = new Intent();
+                intent.putExtra("klient",klient);
+                setResult(RESULT_OK, intent);
                 finish();
             }
         });

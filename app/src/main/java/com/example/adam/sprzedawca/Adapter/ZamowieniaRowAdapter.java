@@ -29,6 +29,12 @@ public class ZamowieniaRowAdapter extends ArrayAdapter<Zamowienie> {
         this.zamowienia=zamowienia;
     }
 
+    static class ViewHolder{
+        TextView mainTextView;
+        TextView subTextView;
+        TextView sub2TextView;
+    }
+
     /**
      * {@inheritDoc}
      *
@@ -38,20 +44,36 @@ public class ZamowieniaRowAdapter extends ArrayAdapter<Zamowienie> {
      */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View rowView = convertView;
-        LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        rowView = inflater.inflate(layoutResourceId,parent,false);
-        TextView mainTextView = (TextView)rowView.findViewById(R.id.tV_row_zamowienia);
-        TextView subTextView = (TextView)rowView.findViewById(R.id.tV_row_zamowienia2);
-        TextView sub2TextView = (TextView)rowView.findViewById(R.id.tV_row_zamowienia3);
+//        View rowView = convertView;
+        if(convertView==null) {
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = inflater.inflate(layoutResourceId, parent, false);
+
+            ViewHolder viewHolder = new ViewHolder();
+            viewHolder.mainTextView=(TextView)convertView.findViewById(R.id.tV_row_zamowienia);
+            viewHolder.subTextView=(TextView)convertView.findViewById(R.id.tV_row_zamowienia2);
+            viewHolder.sub2TextView = (TextView)convertView.findViewById(R.id.tV_row_zamowienia3);
+            convertView.setTag(viewHolder);
+        }
+
         Zamowienie zamowienie = new Zamowienie();
         zamowienie = getItem(position);
 
-        mainTextView.setText(zamowienie.getTowar_name()+" - ilość:"+zamowienie.getSztuk()+" , wartość: "+zamowienie.getCena());
-        subTextView.setText(zamowienie.getKlient_name());
-        sub2TextView.setText(zamowienie.getData());
-        return rowView;
+        ViewHolder holder = (ViewHolder)convertView.getTag();
+        holder.mainTextView.setText(zamowienie.getTowar_name()+" - ilość:"+zamowienie.getSztuk()+" , wartość: "+zamowienie.getCena());
+        holder.subTextView.setText(zamowienie.getKlient_name());
+        holder.sub2TextView.setText(zamowienie.getData());
+
+//        TextView mainTextView = (TextView)rowView.findViewById(R.id.tV_row_zamowienia);
+//        TextView subTextView = (TextView)rowView.findViewById(R.id.tV_row_zamowienia2);
+//        TextView sub2TextView = (TextView)rowView.findViewById(R.id.tV_row_zamowienia3);
+//
+//        mainTextView.setText(zamowienie.getTowar_name()+" - ilość:"+zamowienie.getSztuk()+" , wartość: "+zamowienie.getCena());
+//        subTextView.setText(zamowienie.getKlient_name());
+//        sub2TextView.setText(zamowienie.getData());
+//        return rowView;
 //        return super.getView(position, convertView, parent);
+        return convertView;
     }
 
     /**

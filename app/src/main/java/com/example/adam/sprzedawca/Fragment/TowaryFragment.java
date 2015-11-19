@@ -37,16 +37,18 @@ public class TowaryFragment extends Fragment {
         // Content of previous onCreate() here
         ListView lista = (ListView) llLayout.findViewById(R.id.listView_Towary);
 
+        List<Towar> towary = Towar.dajWszystkie(faActivity.getApplicationContext());
+
         FloatingActionButton floatingActionButton = (FloatingActionButton) llLayout.findViewById(R.id.floatingActionButton_Towary);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(faActivity, DodajTowarActivity.class);
                 startActivity(intent);
+//                faActivity.
             }
         });
 
-        List<Towar> towary = Towar.dajWszystkie(faActivity.getApplicationContext());
         if(towary!=null) {
             TowaryRowAdapter adapter = new TowaryRowAdapter(faActivity.getApplicationContext(), R.layout.row_towary, towary);
             lista.setAdapter(adapter);

@@ -4,6 +4,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.example.adam.sprzedawca.Db.DbHelper;
 
@@ -13,8 +15,8 @@ import java.util.List;
 /**
  * Created by Adam on 2015-10-03.
  */
-public class Klient {
-    private Integer id = null;
+public class Klient implements Parcelable{
+    private Integer id;
     private String nazwa;
     private String adres;
     private String miejscowosc;
@@ -24,6 +26,7 @@ public class Klient {
     private String telefon;
 
     public Klient(String nazwa, String adres, String miejscowosc, String kod, String nip, String regon, String telefon) {
+        this.id=null;
         this.nazwa = nazwa;
         this.adres = adres;
         this.miejscowosc = miejscowosc;
@@ -36,6 +39,29 @@ public class Klient {
     public Klient() {
 
     }
+
+    protected Klient(Parcel in) {
+        id = in.readInt();
+        nazwa = in.readString();
+        adres = in.readString();
+        miejscowosc = in.readString();
+        kod = in.readString();
+        nip = in.readString();
+        regon = in.readString();
+        telefon = in.readString();
+    }
+
+    public static final Creator<Klient> CREATOR = new Creator<Klient>() {
+        @Override
+        public Klient createFromParcel(Parcel in) {
+            return new Klient(in);
+        }
+
+        @Override
+        public Klient[] newArray(int size) {
+            return new Klient[size];
+        }
+    };
 
     public int getId() {
         return id;
@@ -199,4 +225,20 @@ public class Klient {
     }
 
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(nazwa);
+        dest.writeString(adres);
+        dest.writeString(miejscowosc);
+        dest.writeString(kod);
+        dest.writeString(nip);
+        dest.writeString(regon);
+        dest.writeString(telefon);
+    }
 }

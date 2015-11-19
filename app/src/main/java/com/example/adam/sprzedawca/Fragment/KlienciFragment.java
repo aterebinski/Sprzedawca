@@ -39,18 +39,19 @@ public class KlienciFragment extends Fragment {
         // Content of previous onCreate() here
         ArrayList<String> sKlienci= new ArrayList<>();
 
+        final ListView listView = (ListView) llLayout.findViewById(R.id.listView_Klienci);
+
+        List<Klient> klienci = Klient.dajWszystkie(super.getActivity().getApplicationContext());
+
         FloatingActionButton floatingActionButton = (FloatingActionButton)llLayout.findViewById(R.id.floatingActionButton_Klienci);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(faActivity.getApplicationContext(), DodajKlientaActivity.class);
                 startActivity(i);
+                listView.deferNotifyDataSetChanged();
             }
         });
-
-        ListView listView = (ListView) llLayout.findViewById(R.id.listView_Klienci);
-
-        List<Klient> klienci = Klient.dajWszystkie(super.getActivity().getApplicationContext());
 
         if(klienci!=null) {
             KlienciRowAdapter adapter = new KlienciRowAdapter(faActivity.getApplicationContext(), R.layout.row_klienci, klienci);

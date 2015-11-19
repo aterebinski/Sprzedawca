@@ -4,6 +4,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.example.adam.sprzedawca.Db.DbHelper;
 
@@ -13,8 +15,8 @@ import java.util.List;
 /**
  * Created by Adam on 2015-10-03.
  */
-public class Towar {
-    private Integer id = null;
+public class Towar implements Parcelable{
+    private Integer id;
     private String nazwa;
     private Float cena;
     private Float dostepne; //ilosc dostepnych sztuk w magazynie
@@ -22,6 +24,7 @@ public class Towar {
     private Integer polka;
 
     public Towar(String nazwa, Float cena, Float dostepne, Integer regal, Integer polka) {
+        this.id=null;
         this.nazwa = nazwa;
         this.cena = cena;
         this.dostepne = dostepne;
@@ -31,6 +34,22 @@ public class Towar {
 
     public Towar() {
     }
+
+    protected Towar(Parcel in) {
+        nazwa = in.readString();
+    }
+
+    public static final Creator<Towar> CREATOR = new Creator<Towar>() {
+        @Override
+        public Towar createFromParcel(Parcel in) {
+            return new Towar(in);
+        }
+
+        @Override
+        public Towar[] newArray(int size) {
+            return new Towar[size];
+        }
+    };
 
     public Integer getId() {
         return id;
@@ -163,4 +182,13 @@ public class Towar {
         }
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(nazwa);
+    }
 }

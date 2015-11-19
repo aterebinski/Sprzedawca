@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.example.adam.sprzedawca.Model.Klient;
 import com.example.adam.sprzedawca.Model.Towar;
@@ -18,11 +19,36 @@ import com.example.adam.sprzedawca.R;
 import java.util.List;
 
 public class DodajZamowienieActivity extends AppCompatActivity {
+    private Klient klient;
+    private Towar towar;
+
+    int requestCode;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(data.getExtras().getParcelable("klient")!=null){
+            klient = data.getExtras().getParcelable("klient");
+            TextView tvKlient = (TextView)findViewById(R.id.tV_wybranyKlient);
+            tvKlient.setText(klient.getNazwa());
+
+        }
+
+        if(data.getExtras().getParcelable("towar")!=null){
+            towar = data.getExtras().getParcelable("towar");
+            TextView tvTowar = (TextView)findViewById(R.id.tV_wybranyTowar);
+            tvTowar.setText(towar.getNazwa());
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dodaj_zamowienie);
+
+        klient=null;
+        towar=null;
 
         final EditText fieldSztuk = (EditText)findViewById(R.id.editText_addZamowienie_sztuk);
         final EditText fieldCena = (EditText)findViewById(R.id.editText_addZamowienie_cena);
@@ -35,7 +61,7 @@ public class DodajZamowienieActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(),WybierzKlientaActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent,requestCode);
             }
         });
 
