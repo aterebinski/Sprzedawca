@@ -3,17 +3,21 @@ package com.example.adam.sprzedawca.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.adam.sprzedawca.Model.Klient;
 import com.example.adam.sprzedawca.Model.Towar;
+import com.example.adam.sprzedawca.Model.Zamowienie;
 import com.example.adam.sprzedawca.R;
 
 import java.util.List;
@@ -21,20 +25,24 @@ import java.util.List;
 public class DodajZamowienieActivity extends AppCompatActivity {
     private Klient klient;
     private Towar towar;
+    private Zamowienie zamowienie;
 
     int requestCode;
 
+    //ponizej: obsluga przyjscia wynikow wyboru towaru lub klienta
+    //(wybor za pomoca przycikow "wybor")
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        //pobranie klienta ktory jest obiektem Parcelable
         if(data.getExtras().getParcelable("klient")!=null){
             klient = data.getExtras().getParcelable("klient");
             TextView tvKlient = (TextView)findViewById(R.id.tV_wybranyKlient);
             tvKlient.setText(klient.getNazwa());
-
         }
 
+        //pobranie towaru ktory jest obiektem Parcelable
         if(data.getExtras().getParcelable("towar")!=null){
             towar = data.getExtras().getParcelable("towar");
             TextView tvTowar = (TextView)findViewById(R.id.tV_wybranyTowar);
@@ -52,10 +60,10 @@ public class DodajZamowienieActivity extends AppCompatActivity {
 
         final EditText fieldSztuk = (EditText)findViewById(R.id.editText_addZamowienie_sztuk);
         final EditText fieldCena = (EditText)findViewById(R.id.editText_addZamowienie_cena);
-        final EditText fieldData = (EditText)findViewById(R.id.editText_addZamowienie_data);
+        final DatePicker fieldData = (DatePicker)findViewById(R.id.datePicker);
         Button btnWybierzKlienta = (Button)findViewById(R.id.bt_wybierzKlienta);
         Button btnWybierzTowar = (Button)findViewById(R.id.bt_wybierzTowar);
-        Button buttonZatwierdz = (Button)findViewById(R.id.button_addZamowienie_zatwierdz);
+        Button btnZatwierdz = (Button)findViewById(R.id.button_addZamowienie_zatwierdz);
 
         btnWybierzKlienta.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,12 +77,35 @@ public class DodajZamowienieActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(),WybierzTowarActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent,requestCode);
             }
         });
 
         List<Towar> towary = Towar.dajWszystkie(getApplicationContext());
         List<Klient> klienci = Klient.dajWszystkie(getApplicationContext());
+
+        btnZatwierdz.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(towar==null){
+                    Toast.makeText(DodajZamowienieActivity.this, "Nie wybrałeś towaru", Toast.LENGTH_SHORT).show();
+                }else if (klient==null){
+                    Toast.makeText(DodajZamowienieActivity.this, "Nie wybrałeś klienta", Toast.LENGTH_SHORT).show();
+                }else{
+                    zamowienie = new Zamowienie();
+                    zamowienie.setTowar_id(towar.getId());
+                    zamowienie.setTowar_name(towar.getNazwa());
+                    zamowienie.setKlient_id(klient.getId());
+                    zamowienie.setKlient_name(klient.getNazwa());
+                    zamowienie.setCena(Float.parseFloat(fieldCena.getText().toString()));
+                    zamowienie.setSztuk(Float.parseFloat(fieldSztuk.getText().toString()));
+                    zamowienie.setData(showDate(fieldData.getDayOfMonth(),fieldData.getMonth(),fieldData.getYear()));
+                    zamowienie.dodajZamowienie(getApplicationContext());
+//                    Log.e("Towar","Obiekt Towar id:"+towar.getId()+", nazwa:"+towar.getNazwa());
+                    finish();
+                }
+            }
+        });
 
 
     }
@@ -100,5 +131,11 @@ public class DodajZamowienieActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    // TODO dodać funkcję która ustala Stringa z datą
+    private String showDate(int day, int month, int year) {
+        return ""+day+"-"+(month+1)+"-"+year;
+
     }
 }

@@ -13,6 +13,8 @@ import com.example.adam.sprzedawca.R;
 
 public class DodajKlientaActivity extends AppCompatActivity {
 
+    Klient klient;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,7 +33,7 @@ public class DodajKlientaActivity extends AppCompatActivity {
         final View.OnClickListener lZatwierdz = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Klient klient = new Klient(fieldNazwa.getText().toString(), fieldAdres.getText().toString(), fieldMiejscowosc.getText().toString(), fieldKod.getText().toString(), fieldNIP.getText().toString(),
+                klient = new Klient(fieldNazwa.getText().toString(), fieldAdres.getText().toString(), fieldMiejscowosc.getText().toString(), fieldKod.getText().toString(), fieldNIP.getText().toString(),
                         fieldREGON.getText().toString(), fieldTelefon.getText().toString());
                 klient.dodajKlienta(getApplicationContext());
                 finish();

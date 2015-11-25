@@ -35,4 +35,7 @@
     <string name="towar">Towar:</string>
     <string name="data">Data:</string>
     <string name="sztuk">Sztuk:</string>
+    <string name="usun_towary">Usuń wszystkie towary</string>
+    <string name="usun_zamowienia">Usuń wszystkie zamówienia</string>
+    <string name="usun_klientow">Usuń wszystkich klientów</string>
 </resources>

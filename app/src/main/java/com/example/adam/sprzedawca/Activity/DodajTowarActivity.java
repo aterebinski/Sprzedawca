@@ -2,6 +2,7 @@ package com.example.adam.sprzedawca.Activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,6 +13,8 @@ import com.example.adam.sprzedawca.Model.Towar;
 import com.example.adam.sprzedawca.R;
 
 public class DodajTowarActivity extends AppCompatActivity {
+
+    Towar towar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,8 +34,8 @@ public class DodajTowarActivity extends AppCompatActivity {
                 String nazwa = fieldNazwa.getText().toString();
                 Float cena = Float.parseFloat(fieldCena.getText().toString());
                 Float dostepne = Float.parseFloat(fieldDostepne.getText().toString());
-                Integer regal = Integer.getInteger(fieldRegal.getText().toString());
-                Integer polka = Integer.getInteger(fieldPolka.getText().toString());
+                Integer regal = Integer.parseInt(fieldRegal.getText().toString());
+                Integer polka = Integer.parseInt(fieldPolka.getText().toString());
 //                String[] kolumny = {"nazwa","cena","dostepne","regal","polka"};
 /*                ContentValues wartosci = new ContentValues();
                 wartosci.put("nazwa",nazwa);
@@ -45,8 +48,9 @@ public class DodajTowarActivity extends AppCompatActivity {
                 SQLiteDatabase db = dbHelper.getWritableDatabase();
                 db.insertOrThrow("towary",null,wartosci);*/
 
-                Towar towar = new Towar(nazwa,cena,dostepne,regal,polka);
+                towar = new Towar(nazwa,cena,dostepne,regal,polka);
                 towar.dodajTowar(getApplicationContext());
+//                Log.e("Polki i regaly","Polka="+polka+", regal="+regal+" | Obiekt Towar: Polka:"+towar.getPolka()+", regal: "+towar.getRegal());
                 finish();
             }
         };

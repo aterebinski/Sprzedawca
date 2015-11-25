@@ -24,8 +24,11 @@ public class WybierzTowarActivity extends AppCompatActivity {
 
         ListView listView = (ListView)findViewById(R.id.lV_wybierz_towar);
         towary = Towar.dajWszystkie(getApplicationContext());
-        TowaryRowAdapter adapter = new TowaryRowAdapter(getApplicationContext(),R.layout.row_towary,towary);
-        listView.setAdapter(adapter);
+
+        if(towary!=null) {
+            TowaryRowAdapter adapter = new TowaryRowAdapter(getApplicationContext(), R.layout.row_towary, towary);
+            listView.setAdapter(adapter);
+        }
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

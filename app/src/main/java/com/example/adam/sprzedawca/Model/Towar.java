@@ -36,7 +36,12 @@ public class Towar implements Parcelable{
     }
 
     protected Towar(Parcel in) {
+        id = in.readInt();
         nazwa = in.readString();
+        cena = in.readFloat();
+        dostepne = in.readFloat();
+        regal = in.readInt();
+        polka = in.readInt();
     }
 
     public static final Creator<Towar> CREATOR = new Creator<Towar>() {
@@ -173,12 +178,19 @@ public class Towar implements Parcelable{
 
         Cursor kursor = db.query("towary",kolumny,"id=?",args,null, null, null);
         if (kursor != null) {
+//            setId(kursor.getInt(0));
+//            setNazwa(kursor.getString(0));
+//            setCena(kursor.getFloat(0));
+//            setDostepne(kursor.getFloat(1));
+//            setRegal(kursor.getInt(1));
+//            setPolka(kursor.getInt(2));
+
             setId(kursor.getInt(0));
-            setNazwa(kursor.getString(0));
-            setCena(kursor.getFloat(0));
-            setDostepne(kursor.getFloat(1));
-            setRegal(kursor.getInt(1));
-            setPolka(kursor.getInt(2));
+            setNazwa(kursor.getString(1));
+            setCena(kursor.getFloat(2));
+            setDostepne(kursor.getFloat(3));
+            setRegal(kursor.getInt(4));
+            setPolka(kursor.getInt(5));
         }
     }
 
@@ -189,6 +201,11 @@ public class Towar implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
         dest.writeString(nazwa);
+        dest.writeFloat(cena);
+        dest.writeFloat(dostepne);
+        dest.writeInt(regal);
+        dest.writeInt(polka);
     }
 }
