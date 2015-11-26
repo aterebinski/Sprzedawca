@@ -12,6 +12,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -36,8 +37,21 @@ public class TowaryFragment extends Fragment {
 
         // Content of previous onCreate() here
         ListView lista = (ListView) llLayout.findViewById(R.id.listView_Towary);
+        final List<Towar> towary = Towar.dajWszystkie(faActivity.getApplicationContext());
 
-        List<Towar> towary = Towar.dajWszystkie(faActivity.getApplicationContext());
+        if(towary!=null) {
+            TowaryRowAdapter adapter = new TowaryRowAdapter(faActivity.getApplicationContext(), R.layout.row_towary, towary);
+            lista.setAdapter(adapter);
+        }
+
+        lista.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                Towar towar = towary.get(position);
+                towar.getId();
+                return false;
+            }
+        });
 
         FloatingActionButton floatingActionButton = (FloatingActionButton) llLayout.findViewById(R.id.floatingActionButton_Towary);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
@@ -48,11 +62,6 @@ public class TowaryFragment extends Fragment {
 //                faActivity.
             }
         });
-
-        if(towary!=null) {
-            TowaryRowAdapter adapter = new TowaryRowAdapter(faActivity.getApplicationContext(), R.layout.row_towary, towary);
-            lista.setAdapter(adapter);
-        }
 
         // Don't use this method, it's handled by inflater.inflate() above :
         // setContentView(R.layout.activity_layout);

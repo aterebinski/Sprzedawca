@@ -23,8 +23,9 @@ public class Zamowienie {
     private String data;
     private Float sztuk;
     private Float cena;
+    private Integer del;
 
-    public Zamowienie(Integer id, Integer klient_id, String klient_name, Integer towar_id, String towar_name, String data, Float sztuk, Float cena) {
+    public Zamowienie(Integer id, Integer klient_id, String klient_name, Integer towar_id, String towar_name, String data, Float sztuk, Float cena, Integer del) {
         this.id = id;
         this.klient_id = klient_id;
         this.klient_name = klient_name;
@@ -33,6 +34,7 @@ public class Zamowienie {
         this.data = data;
         this.sztuk = sztuk;
         this.cena = cena;
+        this.del = del;
     }
 
     public Zamowienie(String klient_name, Integer towar_id, String towar_name, String data, Float sztuk, Float cena) {
@@ -44,6 +46,7 @@ public class Zamowienie {
         this.data = data;
         this.sztuk = sztuk;
         this.cena = cena;
+        this.del = 0;
     }
 
     public Zamowienie(Integer klient_id, Integer towar_id, String data, Float sztuk, Float cena) {
@@ -55,6 +58,7 @@ public class Zamowienie {
         this.data = data;
         this.sztuk = sztuk;
         this.cena = cena;
+        this.del = 0;
     }
 
     public Zamowienie() {
@@ -124,6 +128,14 @@ public class Zamowienie {
         this.cena = cena;
     }
 
+    public Integer getDel() {
+        return del;
+    }
+
+    public void setDel(Integer del) {
+        this.del = del;
+    }
+
     public void dodajZamowienie(Context context){
         ContentValues wartosci = new ContentValues();
         DbHelper dbHelper = DbHelper.getDbHelper(context);
@@ -134,6 +146,7 @@ public class Zamowienie {
         wartosci.put("data", getData());
         wartosci.put("sztuk", getSztuk());
         wartosci.put("cena", getCena());
+        wartosci.put("del",getDel());
         db.insertOrThrow("zamowienie", null, wartosci);
     }
 
@@ -148,6 +161,7 @@ public class Zamowienie {
         wartosci.put("data",getData());
         wartosci.put("sztuk",getSztuk());
         wartosci.put("cena",getCena());
+        wartosci.put("del",getDel());
         db.update("zamowienie", wartosci, "id=?", args);
     }
 
@@ -155,20 +169,32 @@ public class Zamowienie {
         DbHelper dbHelper = DbHelper.getDbHelper(context);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         String[] args = {""+id};
-        db.delete("zamowienie", "id=?", args);
+//        db.delete("zamowienie", "id=?", args);
+        ContentValues values = new ContentValues();
+        values.put("del",1);
+        db.update("zamowienie", values, "id=?", args);
+    }
+
+    public static void kasujWszystkie(Context context){
+        DbHelper dbHelper = DbHelper.getDbHelper(context);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+//        db.delete("zamowienie", "", null);
+        ContentValues values = new ContentValues();
+        values.put("del",1);
+        db.update("zamowienie",values,"",null);
     }
 
     public static List<Zamowienie> dajWszystkie(Context context){
         DbHelper dbHelper = DbHelper.getDbHelper(context);
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         List<Zamowienie> zamowienia = new ArrayList<Zamowienie>();
-        String[] kolumny = {"id","klient_id", "towar_id", "data","sztuk","cena"};
+        String[] kolumny = {"id","klient_id", "towar_id", "data","sztuk","cena","del"};
         String[] klient_kolumny = {"id","nazwa"};
         String[] klient_args = new String[1];
         String[] towar_kolumny = {"id","nazwa"};
         String[] towar_args = new String[1];
 
-        Cursor cursor = db.query("zamowienie",kolumny,null, null, null, null, null );
+        Cursor cursor = db.query("zamowienie",kolumny,"del=0", null, null, null, null );
         while(cursor.moveToNext()){
             klient_args[0] = Integer.toString(cursor.getInt(1));
             Cursor cursor_klient = db.query("klienci",klient_kolumny,"id = ?", klient_args, null, null, null );
@@ -186,6 +212,7 @@ public class Zamowienie {
             zamowienie.setCena(cursor.getFloat(5));
             zamowienie.setKlient_name(cursor_klient.getString(1));
             zamowienie.setTowar_name(cursor_towar.getString(1));
+            zamowienie.setDel(cursor.getInt(6));
             zamowienia.add(zamowienie);
         }
         return zamowienia;
@@ -195,7 +222,7 @@ public class Zamowienie {
 //        Zamowienie zamowienie = new Zamowienie();
         DbHelper dbHelper = DbHelper.getDbHelper(context);
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        String[] kolumny = {"id","klient_id", "towar_id", "data","sztuk","cena"};
+        String[] kolumny = {"id","klient_id", "towar_id", "data","sztuk","cena","del"};
         String[] args = {""+id};
 
         Cursor cursor = db.query("zamowienie",kolumny,"id=?",args,null,null,null);
@@ -203,9 +230,10 @@ public class Zamowienie {
             setId(cursor.getInt(0));
             setKlient_id(cursor.getInt(1));
             setTowar_id(cursor.getInt(2));
-            setData(cursor.getString(0));
-            setSztuk(cursor.getFloat(0));
-            setCena(cursor.getFloat(1));
+            setData(cursor.getString(3));
+            setSztuk(cursor.getFloat(4));
+            setCena(cursor.getFloat(5));
+            setDel(cursor.getInt(6));
 
 //            zamowienie.setId(cursor.getInt(0));
 //            zamowienie.setKlient_id(cursor.getInt(1));

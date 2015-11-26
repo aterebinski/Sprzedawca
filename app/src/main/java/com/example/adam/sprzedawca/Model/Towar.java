@@ -22,6 +22,7 @@ public class Towar implements Parcelable{
     private Float dostepne; //ilosc dostepnych sztuk w magazynie
     private Integer regal;
     private Integer polka;
+    private Integer del;
 
     public Towar(String nazwa, Float cena, Float dostepne, Integer regal, Integer polka) {
         this.id=null;
@@ -30,6 +31,7 @@ public class Towar implements Parcelable{
         this.dostepne = dostepne;
         this.regal = regal;
         this.polka = polka;
+        this.del = 0;
     }
 
     public Towar() {
@@ -42,6 +44,7 @@ public class Towar implements Parcelable{
         dostepne = in.readFloat();
         regal = in.readInt();
         polka = in.readInt();
+        del = in.readInt();
     }
 
     public static final Creator<Towar> CREATOR = new Creator<Towar>() {
@@ -104,6 +107,14 @@ public class Towar implements Parcelable{
         this.polka = polka;
     }
 
+    public Integer getDel() {
+        return del;
+    }
+
+    public void setDel(Integer del) {
+        this.del = del;
+    }
+
     public void dodajTowar(Context context){
         ContentValues wartosci = new ContentValues();
         DbHelper dbHelper = DbHelper.getDbHelper(context);
@@ -114,6 +125,7 @@ public class Towar implements Parcelable{
         wartosci.put("dostepne",getDostepne());
         wartosci.put("regal",getRegal());
         wartosci.put("polka",getPolka());
+        wartosci.put("del",getDel());
 
         db.insertOrThrow("towary", null, wartosci);
     }
@@ -128,6 +140,7 @@ public class Towar implements Parcelable{
         wartosci.put("dostepne",getDostepne());
         wartosci.put("regal",getRegal());
         wartosci.put("polka",getPolka());
+        wartosci.put("del",getDel());
         db.update("towary", wartosci, "id=?", args);
     }
 
@@ -135,7 +148,19 @@ public class Towar implements Parcelable{
         DbHelper dbHelper = DbHelper.getDbHelper(context);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         String[] args = {""+id};
-        db.delete("towary","id=?",args);
+//        db.delete("towary", "id=?", args);
+        ContentValues values = new ContentValues();
+        values.put("del",1);
+        db.update("towary", values, "id=?", args);
+    }
+
+    public static void kasujWszystkie(Context context){
+        DbHelper dbHelper = DbHelper.getDbHelper(context);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+//        db.delete("towary", "", null);
+        ContentValues values = new ContentValues();
+        values.put("del",1);
+        db.update("towary",values,"",null);
     }
 
     public static List<Towar> dajWszystkie (Context context){
@@ -143,8 +168,8 @@ public class Towar implements Parcelable{
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         List<Towar> towary = new LinkedList<Towar>();
 
-        String[] kolumny = {"id","nazwa","cena","dostepne","regal","polka"};
-        Cursor kursor = db.query("towary",kolumny,null,null,null,null,null);
+        String[] kolumny = {"id","nazwa","cena","dostepne","regal","polka","del"};
+        Cursor kursor = db.query("towary",kolumny,"del=0",null,null,null,null);
         while (kursor.moveToNext()){
             Towar towar = new Towar();
 
@@ -161,6 +186,7 @@ public class Towar implements Parcelable{
             towar.setDostepne(kursor.getFloat(3));
             towar.setRegal(kursor.getInt(4));
             towar.setPolka(kursor.getInt(5));
+            towar.setDel(kursor.getInt(6));
             towary.add(towar);
         }
 
@@ -173,7 +199,7 @@ public class Towar implements Parcelable{
 //        Towar towar = new Towar();
         DbHelper dbHelper = DbHelper.getDbHelper(context);
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        String[] kolumny = {"id","nazwa","cena","dostepne","regal","polka"};
+        String[] kolumny = {"id","nazwa","cena","dostepne","regal","polka","del"};
         String[] args = {""+id};
 
         Cursor kursor = db.query("towary",kolumny,"id=?",args,null, null, null);
@@ -191,6 +217,7 @@ public class Towar implements Parcelable{
             setDostepne(kursor.getFloat(3));
             setRegal(kursor.getInt(4));
             setPolka(kursor.getInt(5));
+            setDel(kursor.getInt(6));
         }
     }
 
@@ -207,5 +234,6 @@ public class Towar implements Parcelable{
         dest.writeFloat(dostepne);
         dest.writeInt(regal);
         dest.writeInt(polka);
+        dest.writeInt(del);
     }
 }

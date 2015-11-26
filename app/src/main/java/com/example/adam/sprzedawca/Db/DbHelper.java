@@ -12,9 +12,10 @@ public class DbHelper extends SQLiteOpenHelper {
 
     private static DbHelper instance = null;
     private static String dbName = "sprzedawca.db";
+    private static final int DATABASE_VERSION = 3;
 
     private DbHelper(Context context) {
-        super(context, dbName, null, 1);
+        super(context, dbName, null, DATABASE_VERSION);
     }
 
     public static DbHelper getDbHelper(Context context){
@@ -38,7 +39,8 @@ public class DbHelper extends SQLiteOpenHelper {
                 "kod text," +
                 "nip text," +
                 "regon text," +
-                "telefon text);");
+                "telefon text," +
+                "del boolean);");
 
         db.execSQL("create table towary(" +
                 "id integer primary key autoincrement," +
@@ -46,22 +48,32 @@ public class DbHelper extends SQLiteOpenHelper {
                 "cena real," +
                 "dostepne real," +
                 "regal integer," +
-                "polka integer);");
+                "polka integer," +
+                "del boolean);");
         db.execSQL("create table zamowienie(" +
                 "id integer primary key autoincrement," +
                 "klient_id integer," +
                 "towar_id integer," +
                 "data text," +
                 "sztuk real," +
-                "cena real);");
+                "cena real," +
+                "del boolean);");
 
-        Log.d("Dodano bazę","");
+        Log.d("Dodano bazę","Dodano bazę");
 
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        if(oldVersion<3) {
+            db.execSQL("alter table zamowienie add del boolean");
+            db.execSQL("alter table towary add del boolean");
+            db.execSQL("alter table klienci add del boolean");
+            db.execSQL("update zamowienie set del=0");
+            db.execSQL("update towary set del=0");
+            db.execSQL("update klienci set del=0");
+            Log.e("Zaktualizowano bazę", "Zaktualizowano bazę");
+        }
     }
 
     /*public void dodajKlienta(String nazwa, String adres, String miejscowosc, String kod, String nip, String regon, String telefon){

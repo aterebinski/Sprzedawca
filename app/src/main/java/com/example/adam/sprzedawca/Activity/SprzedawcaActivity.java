@@ -1,7 +1,10 @@
 package com.example.adam.sprzedawca.Activity;
 
+import android.app.Dialog;
+
 import android.app.Fragment;
 import android.app.FragmentManager;
+
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -17,10 +20,21 @@ import android.widget.Toast;
 
 import com.example.adam.sprzedawca.Fragment.KlienciFragment;
 import com.example.adam.sprzedawca.Fragment.TowaryFragment;
+import com.example.adam.sprzedawca.Fragment.UsunKlientowFragment;
+import com.example.adam.sprzedawca.Fragment.UsunTowaryFragment;
+import com.example.adam.sprzedawca.Fragment.UsunZamowieniaFragment;
 import com.example.adam.sprzedawca.Fragment.ZamowieniaFragment;
 import com.example.adam.sprzedawca.R;
 
 public class SprzedawcaActivity extends AppCompatActivity {
+
+//    private final int DIALOG_USUN_ZAMOWIENIA = 1;
+//    private final int DIALOG_USUN_KLIENTOW = 2;
+//    private final int DIALOG_USUN_TOWARY = 3;
+//    private final int DIALOG_USUN_ZAMOWIENIE = 4;
+//    private final int DIALOG_USUN_KLIENTA = 5;
+//    private final int DIALOG_USUN_TOWAR = 6;
+
 
     private String[] sLista = {"Zamówienia","Klienci","Towary"};
     private ListView mDrawerList = null;
@@ -83,31 +97,49 @@ public class SprzedawcaActivity extends AppCompatActivity {
         return true;
     }
 
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        // Pass the event to ActionBarDrawerToggle, if it returns
+        // true, then it has handled the app icon touch event
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+        // Handle your other action bar items...
+        FragmentManager fragmentManager = getFragmentManager();
+
+        switch (item.getItemId()){
+            case R.id.usun_zamowienia:
+                UsunZamowieniaFragment usunZamowieniaFragment = new UsunZamowieniaFragment();
+                usunZamowieniaFragment.show(fragmentManager,"Usun zamowienia");
+                break;
+            case R.id.usun_klientow:
+                UsunKlientowFragment usunKlientowFragment = new UsunKlientowFragment();
+                usunKlientowFragment.show(fragmentManager,"Usun klientow");
+                break;
+            case R.id.usun_towary:
+                UsunTowaryFragment usunTowaryFragment = new UsunTowaryFragment();
+                usunTowaryFragment.show(fragmentManager,"Usun towary");
+                break;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+        return true;
+    }
+
 //    @Override
 //    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
-//
-//        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
+//        // Pass the event to ActionBarDrawerToggle, if it returns
+//        // true, then it has handled the app icon touch event
+//        if (mDrawerToggle.onOptionsItemSelected(item)) {
 //            return true;
 //        }
+//        // Handle your other action bar items...
 //
 //        return super.onOptionsItemSelected(item);
 //    }
 
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // The action bar home/up action should open or close the drawer.
-        // ActionBarDrawerToggle will take care of this.
-        if (mDrawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
     private void selectItem(int position){
         Fragment fragment = null;

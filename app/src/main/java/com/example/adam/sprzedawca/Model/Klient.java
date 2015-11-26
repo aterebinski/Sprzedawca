@@ -24,6 +24,7 @@ public class Klient implements Parcelable{
     private String nip;
     private String regon;
     private String telefon;
+    private Integer del;
 
     public Klient(String nazwa, String adres, String miejscowosc, String kod, String nip, String regon, String telefon) {
         this.id=null;
@@ -34,6 +35,7 @@ public class Klient implements Parcelable{
         this.nip = nip;
         this.regon = regon;
         this.telefon = telefon;
+        this.del = 0;
     }
 
     public Klient() {
@@ -49,6 +51,7 @@ public class Klient implements Parcelable{
         nip = in.readString();
         regon = in.readString();
         telefon = in.readString();
+        del = in.readInt();
     }
 
     public static final Creator<Klient> CREATOR = new Creator<Klient>() {
@@ -127,6 +130,14 @@ public class Klient implements Parcelable{
         this.telefon = telefon;
     }
 
+    public int getDel() {
+        return del;
+    }
+
+    public void setDel(int del) {
+        this.del = del;
+    }
+
     public void dodajKlienta(Context context){
         DbHelper dbHelper = DbHelper.getDbHelper(context);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -139,6 +150,7 @@ public class Klient implements Parcelable{
         wartosci.put("nip",getNip());
         wartosci.put("regon",getRegon());
         wartosci.put("telefon", getTelefon());
+        wartosci.put("del",getDel());
 
         db.insertOrThrow("klienci", null, wartosci);
     }
@@ -156,6 +168,7 @@ public class Klient implements Parcelable{
         wartosci.put("nip",getNip());
         wartosci.put("regon",getRegon());
         wartosci.put("telefon", getTelefon());
+        wartosci.put("del",getDel());
         db.update("klienci", wartosci, "id=?", args);
     }
 
@@ -163,18 +176,30 @@ public class Klient implements Parcelable{
         DbHelper dbHelper = DbHelper.getDbHelper(context);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         String[] args = {""+id};
-        db.delete("klienci", "id=?", args);
+//        db.delete("klienci", "id=?", args);
+        ContentValues values = new ContentValues();
+        values.put("del",1);
+        db.update("zamowienie",values,"id=?",args);
+    }
+
+    public static void kasujWszystkie(Context context){
+        DbHelper dbHelper = DbHelper.getDbHelper(context);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+//        db.delete("klienci", "", null);
+        ContentValues values = new ContentValues();
+        values.put("del",1);
+        db.update("zamowienie",values,"",null);
     }
 
     public static List<Klient> dajWszystkie(Context context){
 
         List<Klient> klienci = new LinkedList<Klient>();
-        String[] kolumny = {"id","nazwa","adres","miejscowosc","kod","nip","regon","telefon"};
+        String[] kolumny = {"id","nazwa","adres","miejscowosc","kod","nip","regon","telefon","del"};
 
         DbHelper dbHelper = DbHelper.getDbHelper(context);
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
-        Cursor cursor = db.query("klienci", kolumny, null, null, null, null, null);
+        Cursor cursor = db.query("klienci", kolumny, "del=0", null, null, null, null);
         while (cursor.moveToNext()){
             Klient klient = new Klient();
             klient.setId(cursor.getInt(0));
@@ -185,6 +210,7 @@ public class Klient implements Parcelable{
             klient.setNip(cursor.getString(5));
             klient.setRegon(cursor.getString(6));
             klient.setTelefon(cursor.getString(7));
+            klient.setDel(cursor.getInt(8));
             klienci.add(klient);
         }
 
@@ -197,10 +223,10 @@ public class Klient implements Parcelable{
 //        Klient klient = new Klient();
         DbHelper dbHelper = DbHelper.getDbHelper(context);
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        String[] kolumny = {"id","nazwa","adres","miejscowosc","kod","nip","regon","telefon"};
+        String[] kolumny = {"id","nazwa","adres","miejscowosc","kod","nip","regon","telefon","del"};
         String[] args = {""+id};
 
-        Cursor cursor = db.query("klienci",kolumny,"id = ?",args, null, null, null);
+        Cursor cursor = db.query("klienci",kolumny,"id = ? , del = 0",args, null, null, null);
         if (cursor != null) {
 //            klient.setId(cursor.getInt(0));
 //            klient.setNazwa(cursor.getString(0));
@@ -219,6 +245,7 @@ public class Klient implements Parcelable{
             setNip(cursor.getString(5));
             setRegon(cursor.getString(6));
             setTelefon(cursor.getString(7));
+            setDel(cursor.getInt(8));
         }
 
 //        return klient;
@@ -240,5 +267,6 @@ public class Klient implements Parcelable{
         dest.writeString(nip);
         dest.writeString(regon);
         dest.writeString(telefon);
+        dest.writeInt(del);
     }
 }
