@@ -172,14 +172,24 @@ public class Klient implements Parcelable{
         db.update("klienci", wartosci, "id=?", args);
     }
 
-    public void kasujKlienta(Context context, Integer id){
+//    public static void kasujKlienta(Context context, Integer id){
+//        DbHelper dbHelper = DbHelper.getDbHelper(context);
+//        SQLiteDatabase db = dbHelper.getWritableDatabase();
+//        String[] args = {""+id};
+////        db.delete("klienci", "id=?", args);
+//        ContentValues values = new ContentValues();
+//        values.put("del",1);
+//        db.update("zamowienie",values,"id=?",args);
+//    }
+
+    public void kasujKlienta(Context context){
         DbHelper dbHelper = DbHelper.getDbHelper(context);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        String[] args = {""+id};
+        String[] args = {""+this.getId()};
 //        db.delete("klienci", "id=?", args);
         ContentValues values = new ContentValues();
         values.put("del",1);
-        db.update("zamowienie",values,"id=?",args);
+        db.update("klienci",values,"id=?",args);
     }
 
     public static void kasujWszystkie(Context context){
@@ -188,7 +198,7 @@ public class Klient implements Parcelable{
 //        db.delete("klienci", "", null);
         ContentValues values = new ContentValues();
         values.put("del",1);
-        db.update("zamowienie",values,"",null);
+        db.update("klienci",values,"",null);
     }
 
     public static List<Klient> dajWszystkie(Context context){

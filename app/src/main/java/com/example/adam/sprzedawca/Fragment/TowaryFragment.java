@@ -1,6 +1,8 @@
 package com.example.adam.sprzedawca.Fragment;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentActivity;
@@ -29,9 +31,9 @@ public class TowaryFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final FragmentActivity faActivity  = (FragmentActivity)    super.getActivity();
+        final FragmentActivity faActivity = (FragmentActivity) super.getActivity();
         // Replace LinearLayout by the type of the root element of the layout you're trying to load
-        RelativeLayout llLayout    = (RelativeLayout)    inflater.inflate(R.layout.fragment_towary, container, false);
+        RelativeLayout llLayout = (RelativeLayout) inflater.inflate(R.layout.fragment_towary, container, false);
         // Of course you will want to faActivity and llLayout in the class and not this method to access them in the rest of
         // the class, just initialize them here
 
@@ -39,19 +41,41 @@ public class TowaryFragment extends Fragment {
         ListView lista = (ListView) llLayout.findViewById(R.id.listView_Towary);
         final List<Towar> towary = Towar.dajWszystkie(faActivity.getApplicationContext());
 
-        if(towary!=null) {
-            TowaryRowAdapter adapter = new TowaryRowAdapter(faActivity.getApplicationContext(), R.layout.row_towary, towary);
+        if (towary != null) {
+            final TowaryRowAdapter adapter = new TowaryRowAdapter(faActivity.getApplicationContext(), R.layout.row_towary, towary);
             lista.setAdapter(adapter);
-        }
 
-        lista.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                Towar towar = towary.get(position);
-                towar.getId();
-                return false;
-            }
-        });
+            lista.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                @Override
+                public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+                    final Towar towar = towary.get(position);
+                    int towarId = towar.getId();
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(faActivity);
+                    builder.setTitle("Usunięcie towaru");
+                    builder.setMessage("Czy chcesz usunąć wybrany towar? Operacja jest nieodwracalna.");
+                    builder.setPositiveButton("Tak", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            towar.kasujTowar(faActivity.getApplicationContext());
+                            adapter.remove(adapter.getItem(position));
+                            adapter.notifyDataSetChanged();
+                        }
+                    });
+                    builder.setNegativeButton("Nie", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+
+                    return true;
+                }
+            });
+        }
 
         FloatingActionButton floatingActionButton = (FloatingActionButton) llLayout.findViewById(R.id.floatingActionButton_Towary);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {

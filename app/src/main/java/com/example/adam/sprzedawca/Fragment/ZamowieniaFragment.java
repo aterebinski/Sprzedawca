@@ -1,18 +1,22 @@
 package com.example.adam.sprzedawca.Fragment;
 
 
+import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
@@ -50,11 +54,45 @@ public class ZamowieniaFragment extends Fragment{
             }
         });
 
-        List<Zamowienie> zamowienia = Zamowienie.dajWszystkie(faActivity.getApplicationContext());
+        final List<Zamowienie> zamowienia = Zamowienie.dajWszystkie(faActivity.getApplicationContext());
 
         if(zamowienia!=null) {
-            ZamowieniaRowAdapter adapter = new ZamowieniaRowAdapter(faActivity.getApplicationContext(),R.layout.row_zamowienia,zamowienia);
+            final ZamowieniaRowAdapter adapter = new ZamowieniaRowAdapter(faActivity.getApplicationContext(),R.layout.row_zamowienia,zamowienia);
             listView.setAdapter(adapter);
+            Log.e("ZamowieniaFragment", "Sa zamowienia!!! ==================================");
+
+
+            listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                @Override
+                public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(faActivity);
+                    builder.setTitle("Usunięcie zamówienia.");
+                    builder.setMessage("Czy na pewno chcesz usunąć to zamówienie? Operacja jest nieodwracalna.");
+                    builder.setPositiveButton("Tak", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Zamowienie zamowienie = zamowienia.get(position);
+                            zamowienie.kasujZamowienie(faActivity.getApplicationContext());
+                            adapter.remove(adapter.getItem(position));
+                            adapter.notifyDataSetChanged();
+                        }
+                    });
+                    builder.setNegativeButton("Nie", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            //nic nie rób
+                        }
+                    });
+                    AlertDialog alertDialog = builder.create();
+                    alertDialog.show();
+
+                    return false;
+                }
+            });
+
+        }
+        else{
+            Log.e("ZamowieniaFragment","Brak zamowien!!! ==================================");
         }
 
         // Don't use this method, it's handled by inflater.inflate() above :

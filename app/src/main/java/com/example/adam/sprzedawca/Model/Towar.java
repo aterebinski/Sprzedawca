@@ -144,10 +144,20 @@ public class Towar implements Parcelable{
         db.update("towary", wartosci, "id=?", args);
     }
 
-    public void kasujTowar(Context context, Integer id){
+//    public static void kasujTowar(Context context, Integer id){
+//        DbHelper dbHelper = DbHelper.getDbHelper(context);
+//        SQLiteDatabase db = dbHelper.getWritableDatabase();
+//        String[] args = {""+id};
+////        db.delete("towary", "id=?", args);
+//        ContentValues values = new ContentValues();
+//        values.put("del",1);
+//        db.update("towary", values, "id=?", args);
+//    }
+
+    public void kasujTowar(Context context){
         DbHelper dbHelper = DbHelper.getDbHelper(context);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        String[] args = {""+id};
+        String[] args = {""+this.getId()};
 //        db.delete("towary", "id=?", args);
         ContentValues values = new ContentValues();
         values.put("del",1);

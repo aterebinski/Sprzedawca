@@ -62,6 +62,7 @@ public class Zamowienie {
     }
 
     public Zamowienie() {
+        this.del = 0;
     }
 
     public Integer getId() {
@@ -165,10 +166,20 @@ public class Zamowienie {
         db.update("zamowienie", wartosci, "id=?", args);
     }
 
-    public void kasujZamowienie(Context context, Integer id){
+//    public static void kasujZamowienie(Context context, Integer id){
+//        DbHelper dbHelper = DbHelper.getDbHelper(context);
+//        SQLiteDatabase db = dbHelper.getWritableDatabase();
+//        String[] args = {""+id};
+////        db.delete("zamowienie", "id=?", args);
+//        ContentValues values = new ContentValues();
+//        values.put("del",1);
+//        db.update("zamowienie", values, "id=?", args);
+//    }
+
+    public void kasujZamowienie(Context context){
         DbHelper dbHelper = DbHelper.getDbHelper(context);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        String[] args = {""+id};
+        String[] args = {""+this.getId()};
 //        db.delete("zamowienie", "id=?", args);
         ContentValues values = new ContentValues();
         values.put("del",1);
@@ -195,7 +206,9 @@ public class Zamowienie {
         String[] towar_args = new String[1];
 
         Cursor cursor = db.query("zamowienie",kolumny,"del=0", null, null, null, null );
+//        Cursor cursor = db.query("zamowienie",kolumny,null, null, null, null, null );
         while(cursor.moveToNext()){
+            Log.e("co tam","co tam");
             klient_args[0] = Integer.toString(cursor.getInt(1));
             Cursor cursor_klient = db.query("klienci",klient_kolumny,"id = ?", klient_args, null, null, null );
             cursor_klient.moveToFirst();

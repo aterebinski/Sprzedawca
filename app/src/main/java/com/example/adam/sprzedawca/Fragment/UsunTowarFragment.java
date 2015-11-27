@@ -15,20 +15,7 @@ public class UsunTowarFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity().getApplicationContext());
-        builder.setTitle("Usunięcie towaru");
-        builder.setMessage("Czy chcesz usunąć wybrany towar? Operacja jest nieodwracalna.");
-        builder.setPositiveButton("Tak", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dismiss();
-            }
-        });
-        builder.setNegativeButton("Nie", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dismiss();
-            }
-        });
+
         return builder.create();
     }
 }
