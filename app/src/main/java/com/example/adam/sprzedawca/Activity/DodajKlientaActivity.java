@@ -1,5 +1,6 @@
 package com.example.adam.sprzedawca.Activity;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -12,6 +13,8 @@ import com.example.adam.sprzedawca.Model.Klient;
 import com.example.adam.sprzedawca.R;
 
 public class DodajKlientaActivity extends AppCompatActivity {
+
+
 
     Klient klient;
 
@@ -35,7 +38,13 @@ public class DodajKlientaActivity extends AppCompatActivity {
             public void onClick(View v) {
                 klient = new Klient(fieldNazwa.getText().toString(), fieldAdres.getText().toString(), fieldMiejscowosc.getText().toString(), fieldKod.getText().toString(), fieldNIP.getText().toString(),
                         fieldREGON.getText().toString(), fieldTelefon.getText().toString());
-                klient.dodajKlienta(getApplicationContext());
+//                klient.dodajKlienta(getApplicationContext());
+
+                //ponizej: włożenie klienta do paczki i wysłanie do KlienciFragment.onActivityResult
+                // w celu usunięcia z bazy i z listView
+                Intent intent = new Intent();
+                intent.putExtra("klient",klient);
+                setResult(Klient.RESULT_CODE_OK,intent);
                 finish();
             }
         };

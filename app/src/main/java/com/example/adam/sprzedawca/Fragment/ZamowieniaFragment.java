@@ -30,7 +30,13 @@ import com.example.adam.sprzedawca.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ZamowieniaFragment extends Fragment{
+    public class ZamowieniaFragment extends Fragment{
+
+        List<Zamowienie> zamowienia;
+        ZamowieniaRowAdapter adapter;
+        ListView listView;
+
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -43,24 +49,23 @@ public class ZamowieniaFragment extends Fragment{
         // Content of previous onCreate() here
         ArrayList<String> sZamownienia= new ArrayList<>();
 //        ListView listView = (ListView) super.getActivity().findViewById(R.id.listView_Klienci);
-        ListView listView = (ListView) llLayout.findViewById(R.id.lV_Zamowienia);
+        listView = (ListView) llLayout.findViewById(R.id.lV_Zamowienia);
 
         FloatingActionButton floatingActionButton = (FloatingActionButton)llLayout.findViewById(R.id.floatingActionButton_Zamowienia);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(faActivity.getApplicationContext(), DodajZamowienieActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, Zamowienie.REQUEST_CODE_DODAJ_ZAMOWIENIE);
             }
         });
 
-        final List<Zamowienie> zamowienia = Zamowienie.dajWszystkie(faActivity.getApplicationContext());
+        zamowienia = Zamowienie.dajWszystkie(faActivity.getApplicationContext());
 
+        adapter = new ZamowieniaRowAdapter(faActivity.getApplicationContext(),R.layout.row_zamowienia,zamowienia);
+        listView.setAdapter(adapter);
         if(zamowienia!=null) {
-            final ZamowieniaRowAdapter adapter = new ZamowieniaRowAdapter(faActivity.getApplicationContext(),R.layout.row_zamowienia,zamowienia);
-            listView.setAdapter(adapter);
             Log.e("ZamowieniaFragment", "Sa zamowienia!!! ==================================");
-
 
             listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 @Override
@@ -104,4 +109,23 @@ public class ZamowieniaFragment extends Fragment{
         // findViewById(R.id.someGuiElement);
         return llLayout; // We must return the loaded Layout
     }
-}
+
+        @Override
+        public void onActivityResult(int requestCode, int resultCode, Intent data) {
+            final FragmentActivity faActivity = (FragmentActivity) super.getActivity();
+            switch (requestCode){
+                case Zamowienie.REQUEST_CODE_DODAJ_ZAMOWIENIE:
+                    if((resultCode==Zamowienie.RESULT_CODE_OK)&&(data.getExtras().getParcelable("zamowienie")!=null)){
+                        Zamowienie zamowienie = (Zamowienie)data.getExtras().get("zamowienie");
+                        zamowienie.dodajZamowienie(faActivity);
+                        Log.e("ZamowieniaFragment", "ole1");
+                        //dodanie klienta do adaptera i odswiezenie listView
+                        adapter.add(zamowienie);
+                        Log.e("ZamowieniaFragment", "ole2!!! ==================================");
+                        adapter.notifyDataSetChanged();
+                    }
+
+            }
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }

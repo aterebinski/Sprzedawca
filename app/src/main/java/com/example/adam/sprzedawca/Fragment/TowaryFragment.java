@@ -8,6 +8,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -28,6 +29,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TowaryFragment extends Fragment {
+    ListView lista;
+    List<Towar> towary;
+    TowaryRowAdapter adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -38,13 +42,13 @@ public class TowaryFragment extends Fragment {
         // the class, just initialize them here
 
         // Content of previous onCreate() here
-        ListView lista = (ListView) llLayout.findViewById(R.id.listView_Towary);
-        final List<Towar> towary = Towar.dajWszystkie(faActivity.getApplicationContext());
+        lista = (ListView) llLayout.findViewById(R.id.listView_Towary);
+        towary = Towar.dajWszystkie(faActivity.getApplicationContext());
+
+        adapter = new TowaryRowAdapter(faActivity.getApplicationContext(), R.layout.row_towary, towary);
+        lista.setAdapter(adapter);
 
         if (towary != null) {
-            final TowaryRowAdapter adapter = new TowaryRowAdapter(faActivity.getApplicationContext(), R.layout.row_towary, towary);
-            lista.setAdapter(adapter);
-
             lista.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 @Override
                 public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
@@ -82,7 +86,7 @@ public class TowaryFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(faActivity, DodajTowarActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, Towar.REQUEST_CODE_DODAJ_TOWAR);
 //                faActivity.
             }
         });
@@ -95,6 +99,28 @@ public class TowaryFragment extends Fragment {
         // Instead of :
         // findViewById(R.id.someGuiElement);
         return llLayout; // We must return the loaded Layout
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        final FragmentActivity faActivity = (FragmentActivity) super.getActivity();
+        switch (requestCode){
+            case Towar.REQUEST_CODE_DODAJ_TOWAR:
+                if((resultCode==Towar.RESULT_CODE_OK)&&(data.getExtras().getParcelable("towar")!=null)){
+                    Towar towar = (Towar)data.getExtras().get("towar");
+                    towar.dodajTowar(faActivity);
+
+                    //dodanie towaru do adaptera i odswiezenie listView
+                    adapter.add(towar);
+                    adapter.notifyDataSetChanged();
+                }
+                break;
+            default:
+
+
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override

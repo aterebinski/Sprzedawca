@@ -1,5 +1,6 @@
 package com.example.adam.sprzedawca.Activity;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -36,20 +37,12 @@ public class DodajTowarActivity extends AppCompatActivity {
                 Float dostepne = Float.parseFloat(fieldDostepne.getText().toString());
                 Integer regal = Integer.parseInt(fieldRegal.getText().toString());
                 Integer polka = Integer.parseInt(fieldPolka.getText().toString());
-//                String[] kolumny = {"nazwa","cena","dostepne","regal","polka"};
-/*                ContentValues wartosci = new ContentValues();
-                wartosci.put("nazwa",nazwa);
-                wartosci.put("cena",cena);
-                wartosci.put("dostepne",dostepne);
-                wartosci.put("regal",regal);
-                wartosci.put("polka",polka);
-
-                DbHelper dbHelper = DbHelper.getDbHelper(getApplicationContext());
-                SQLiteDatabase db = dbHelper.getWritableDatabase();
-                db.insertOrThrow("towary",null,wartosci);*/
 
                 towar = new Towar(nazwa,cena,dostepne,regal,polka);
-                towar.dodajTowar(getApplicationContext());
+//                towar.dodajTowar(getApplicationContext());
+                Intent intent = new Intent();
+                intent.putExtra("towar",towar);
+                setResult(Towar.RESULT_CODE_OK,intent);
 //                Log.e("Polki i regaly","Polka="+polka+", regal="+regal+" | Obiekt Towar: Polka:"+towar.getPolka()+", regal: "+towar.getRegal());
                 finish();
             }

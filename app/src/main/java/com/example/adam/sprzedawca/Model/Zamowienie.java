@@ -4,6 +4,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
 import com.example.adam.sprzedawca.Db.DbHelper;
@@ -14,7 +16,7 @@ import java.util.List;
 /**
  * Created by Adam on 2015-10-03.
  */
-public class Zamowienie {
+public class Zamowienie implements Parcelable {
     private Integer id;
     private Integer klient_id;
     private String klient_name;
@@ -24,6 +26,10 @@ public class Zamowienie {
     private Float sztuk;
     private Float cena;
     private Integer del;
+
+    public final static int REQUEST_CODE_DODAJ_ZAMOWIENIE = 5;
+    public final static int REQUEST_CODE_USUN_ZAMOWIENIA = 6;
+    public final static int RESULT_CODE_OK = 1;
 
     public Zamowienie(Integer id, Integer klient_id, String klient_name, Integer towar_id, String towar_name, String data, Float sztuk, Float cena, Integer del) {
         this.id = id;
@@ -38,7 +44,7 @@ public class Zamowienie {
     }
 
     public Zamowienie(String klient_name, Integer towar_id, String towar_name, String data, Float sztuk, Float cena) {
-        this.id = null;
+        this.id = 0;
         this.klient_id = klient_id;
         this.klient_name = klient_name;
         this.towar_id = towar_id;
@@ -50,7 +56,7 @@ public class Zamowienie {
     }
 
     public Zamowienie(Integer klient_id, Integer towar_id, String data, Float sztuk, Float cena) {
-        this.id = null;
+        this.id = 0;
         this.klient_id = klient_id;
         this.klient_name = "";
         this.towar_id = towar_id;
@@ -62,8 +68,33 @@ public class Zamowienie {
     }
 
     public Zamowienie() {
+        this.id=0;
         this.del = 0;
     }
+
+    protected Zamowienie(Parcel in) {
+        id = in.readInt();
+        klient_id = in.readInt();
+        klient_name = in.readString();
+        towar_id = in.readInt();
+        towar_name = in.readString();
+        data = in.readString();
+        sztuk = in.readFloat();
+        cena = in.readFloat();
+        del = in.readInt();
+    }
+
+    public static final Creator<Zamowienie> CREATOR = new Creator<Zamowienie>() {
+        @Override
+        public Zamowienie createFromParcel(Parcel in) {
+            return new Zamowienie(in);
+        }
+
+        @Override
+        public Zamowienie[] newArray(int size) {
+            return new Zamowienie[size];
+        }
+    };
 
     public Integer getId() {
         return id;
@@ -258,4 +289,24 @@ public class Zamowienie {
 
 //        return zamowienie;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeInt(klient_id);
+        dest.writeString(klient_name);
+        dest.writeInt(towar_id);
+        dest.writeString(towar_name);
+        dest.writeString(data);
+        dest.writeFloat(sztuk);
+        dest.writeFloat(cena);
+        dest.writeInt(del);
+
+    }
+
 }

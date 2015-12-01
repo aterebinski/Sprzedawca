@@ -24,8 +24,12 @@ public class Towar implements Parcelable{
     private Integer polka;
     private Integer del;
 
+    public final static int REQUEST_CODE_DODAJ_TOWAR = 3;
+    public final static int REQUEST_CODE_USUN_TOWARY = 4;
+    public final static int RESULT_CODE_OK = 1;
+
     public Towar(String nazwa, Float cena, Float dostepne, Integer regal, Integer polka) {
-        this.id=null;
+        this.id=0;
         this.nazwa = nazwa;
         this.cena = cena;
         this.dostepne = dostepne;

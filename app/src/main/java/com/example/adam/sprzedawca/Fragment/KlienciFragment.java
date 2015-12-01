@@ -31,6 +31,11 @@ import java.util.List;
 
 public class KlienciFragment extends Fragment {
 
+    KlienciRowAdapter adapter;
+    ListView listView;
+    List<Klient> klienci;
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final FragmentActivity faActivity = (FragmentActivity) super.getActivity();
@@ -42,23 +47,25 @@ public class KlienciFragment extends Fragment {
         // Content of previous onCreate() here
         ArrayList<String> sKlienci = new ArrayList<>();
 
-        final ListView listView = (ListView) llLayout.findViewById(R.id.listView_Klienci);
+        listView = (ListView) llLayout.findViewById(R.id.listView_Klienci);
 
-        final List<Klient> klienci = Klient.dajWszystkie(super.getActivity().getApplicationContext());
+        klienci = Klient.dajWszystkie(super.getActivity().getApplicationContext());
 
         FloatingActionButton floatingActionButton = (FloatingActionButton) llLayout.findViewById(R.id.floatingActionButton_Klienci);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(faActivity.getApplicationContext(), DodajKlientaActivity.class);
-                startActivity(i);
-                listView.deferNotifyDataSetChanged();
+                startActivityForResult(i, Klient.REQUEST_CODE_DODAJ_KLIENTA);
+//                listView.deferNotifyDataSetChanged();
             }
         });
 
+        adapter = new KlienciRowAdapter(faActivity.getApplicationContext(), R.layout.row_klienci, klienci);
+        listView.setAdapter(adapter);
+
         if (klienci != null) {
-            final KlienciRowAdapter adapter = new KlienciRowAdapter(faActivity.getApplicationContext(), R.layout.row_klienci, klienci);
-            listView.setAdapter(adapter);
+
 
 
             listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -99,6 +106,22 @@ public class KlienciFragment extends Fragment {
         return llLayout; // We must return the loaded Layout
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        final FragmentActivity faActivity = (FragmentActivity) super.getActivity();
+        switch (requestCode){
+            case Klient.REQUEST_CODE_DODAJ_KLIENTA:
+                if((resultCode==Klient.RESULT_CODE_OK)&&(data.getExtras().getParcelable("klient")!=null)){
+                    Klient klient = (Klient)data.getExtras().get("klient");
+                    klient.dodajKlienta(faActivity);
+                    //dodanie klienta do adaptera i odswiezenie listView
+                    adapter.add(klient);
+                    adapter.notifyDataSetChanged();
+                }
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {

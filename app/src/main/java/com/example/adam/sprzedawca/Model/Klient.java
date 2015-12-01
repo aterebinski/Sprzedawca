@@ -26,8 +26,13 @@ public class Klient implements Parcelable{
     private String telefon;
     private Integer del;
 
+    public final static int REQUEST_CODE_DODAJ_KLIENTA = 1;
+    public final static int REQUEST_CODE_USUN_KLIENTOW = 2;
+    public final static int RESULT_CODE_OK = 1;
+
+
     public Klient(String nazwa, String adres, String miejscowosc, String kod, String nip, String regon, String telefon) {
-        this.id=null;
+        this.id=0;
         this.nazwa = nazwa;
         this.adres = adres;
         this.miejscowosc = miejscowosc;

@@ -29,27 +29,6 @@ public class DodajZamowienieActivity extends AppCompatActivity {
 
     int requestCode;
 
-    //ponizej: obsluga przyjscia wynikow wyboru towaru lub klienta
-    //(wybor za pomoca przycikow "wybor")
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        //pobranie klienta ktory jest obiektem Parcelable
-        if(data.getExtras().getParcelable("klient")!=null){
-            klient = data.getExtras().getParcelable("klient");
-            TextView tvKlient = (TextView)findViewById(R.id.tV_wybranyKlient);
-            tvKlient.setText(klient.getNazwa());
-        }
-
-        //pobranie towaru ktory jest obiektem Parcelable
-        if(data.getExtras().getParcelable("towar")!=null){
-            towar = data.getExtras().getParcelable("towar");
-            TextView tvTowar = (TextView)findViewById(R.id.tV_wybranyTowar);
-            tvTowar.setText(towar.getNazwa());
-        }
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,8 +78,11 @@ public class DodajZamowienieActivity extends AppCompatActivity {
                     zamowienie.setKlient_name(klient.getNazwa());
                     zamowienie.setCena(Float.parseFloat(fieldCena.getText().toString()));
                     zamowienie.setSztuk(Float.parseFloat(fieldSztuk.getText().toString()));
-                    zamowienie.setData(showDate(fieldData.getDayOfMonth(),fieldData.getMonth(),fieldData.getYear()));
-                    zamowienie.dodajZamowienie(getApplicationContext());
+                    zamowienie.setData(showDate(fieldData.getDayOfMonth(), fieldData.getMonth(), fieldData.getYear()));
+//                    zamowienie.dodajZamowienie(getApplicationContext());
+                    Intent intent = new Intent();
+                    intent.putExtra("zamowienie",zamowienie);
+                    setResult(Zamowienie.RESULT_CODE_OK,intent);
 //                    Log.e("Towar","Obiekt Towar id:"+towar.getId()+", nazwa:"+towar.getNazwa());
                     finish();
                 }
@@ -108,6 +90,27 @@ public class DodajZamowienieActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    //ponizej: obsluga przyjscia wynikow wyboru towaru lub klienta
+    //(wybor za pomoca przycikow "wybor")
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        //pobranie klienta ktory jest obiektem Parcelable
+        if(data.getExtras().getParcelable("klient")!=null){
+            klient = data.getExtras().getParcelable("klient");
+            TextView tvKlient = (TextView)findViewById(R.id.tV_wybranyKlient);
+            tvKlient.setText(klient.getNazwa());
+        }
+
+        //pobranie towaru ktory jest obiektem Parcelable
+        if(data.getExtras().getParcelable("towar")!=null){
+            towar = data.getExtras().getParcelable("towar");
+            TextView tvTowar = (TextView)findViewById(R.id.tV_wybranyTowar);
+            tvTowar.setText(towar.getNazwa());
+        }
     }
 
     @Override
@@ -133,7 +136,6 @@ public class DodajZamowienieActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    // TODO dodać funkcję która ustala Stringa z datą
     private String showDate(int day, int month, int year) {
         return ""+day+"-"+(month+1)+"-"+year;
 
