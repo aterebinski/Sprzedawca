@@ -63,6 +63,20 @@ public class DodajZamowienieActivity extends AppCompatActivity {
         List<Towar> towary = Towar.dajWszystkie(getApplicationContext());
         List<Klient> klienci = Klient.dajWszystkie(getApplicationContext());
 
+        Bundle bundle = getIntent().getExtras();
+        if(bundle!=null){
+            Log.e("Zamowienie", "Edytowanie!!!!!!!!!!!!!!");
+            zamowienie = bundle.getParcelable("zamowienie");
+            fieldCena.setText(zamowienie.getCena().toString());
+//            fieldData.s
+            fieldSztuk.setText(zamowienie.getSztuk().toString());
+
+            TextView tvKlient = (TextView)findViewById(R.id.tV_wybranyKlient);
+            tvKlient.setText(klient.getNazwa());
+            TextView tvTowar = (TextView)findViewById(R.id.tV_wybranyTowar);
+            tvTowar.setText(towar.getNazwa());
+        }
+
         btnZatwierdz.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -35,6 +35,7 @@ import java.util.List;
         List<Zamowienie> zamowienia;
         ZamowieniaRowAdapter adapter;
         ListView listView;
+        Zamowienie editedZamowienie;
 
 
     @Nullable
@@ -65,7 +66,7 @@ import java.util.List;
         adapter = new ZamowieniaRowAdapter(faActivity.getApplicationContext(),R.layout.row_zamowienia,zamowienia);
         listView.setAdapter(adapter);
         if(zamowienia!=null) {
-            Log.e("ZamowieniaFragment", "Sa zamowienia!!! ==================================");
+//            Log.e("ZamowieniaFragment", "Sa zamowienia!!! ==================================");
 
             listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 @Override
@@ -95,10 +96,20 @@ import java.util.List;
                 }
             });
 
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    editedZamowienie = zamowienia.get(position);
+                    Intent intent = new Intent(faActivity.getApplicationContext(), DodajZamowienieActivity.class);
+                    intent.putExtra("towar", editedZamowienie);
+                    startActivityForResult(intent, Zamowienie.REQUEST_CODE_EDYTUJ_ZAMOWIENIE);
+                }
+            });
+
         }
-        else{
-            Log.e("ZamowieniaFragment","Brak zamowien!!! ==================================");
-        }
+//        else{
+//            Log.e("ZamowieniaFragment","Brak zamowien!!! ==================================");
+//        }
 
         // Don't use this method, it's handled by inflater.inflate() above :
         // setContentView(R.layout.activity_layout);
@@ -118,12 +129,27 @@ import java.util.List;
                     if((resultCode==Zamowienie.RESULT_CODE_OK)&&(data.getExtras().getParcelable("zamowienie")!=null)){
                         Zamowienie zamowienie = (Zamowienie)data.getExtras().get("zamowienie");
                         zamowienie.dodajZamowienie(faActivity);
-                        Log.e("ZamowieniaFragment", "ole1");
+//                        Log.e("ZamowieniaFragment", "ole1");
                         //dodanie klienta do adaptera i odswiezenie listView
                         adapter.add(zamowienie);
-                        Log.e("ZamowieniaFragment", "ole2!!! ==================================");
+//                        Log.e("ZamowieniaFragment", "ole2!!! ==================================");
                         adapter.notifyDataSetChanged();
                     }
+                    break;
+                case Zamowienie.REQUEST_CODE_EDYTUJ_ZAMOWIENIE:
+                    if((resultCode==Zamowienie.RESULT_CODE_OK)&&(data.getExtras().getParcelable("zamowienie")!=null)){
+                        Zamowienie zamowienie = (Zamowienie)data.getExtras().get("zamowienie");
+                        zamowienie.aktualizujZamowienie(faActivity);
+//                        Log.e("ZamowieniaFragment", "ole1");
+
+                        //poprawienie zamowienia w adapterze i odswiezenie listView
+                        int pos = adapter.getPosition(editedZamowienie);
+                        adapter.remove(editedZamowienie);
+                        adapter.insert(zamowienie, pos);
+//                        Log.e("ZamowieniaFragment", "ole2!!! ==================================");
+                        adapter.notifyDataSetChanged();
+                    }
+                    break;
 
             }
             super.onActivityResult(requestCode, resultCode, data);

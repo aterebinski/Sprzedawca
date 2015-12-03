@@ -38,4 +38,7 @@
     <string name="usun_towary">Usuń wszystkie towary</string>
     <string name="usun_zamowienia">Usuń wszystkie zamówienia</string>
     <string name="usun_klientow">Usuń wszystkich klientów</string>
+    <string name="title_activity_edytuj_klienta">EdytujKlientaActivity</string>
+    <string name="title_activity_edytuj_towar">EdytujTowarActivity</string>
+    <string name="title_activity_edytuj_zamowienie">EdytujZamowienieActivity</string>
 </resources>

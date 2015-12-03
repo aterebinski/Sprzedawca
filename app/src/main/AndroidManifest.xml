@@ -17,12 +17,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Fragment.ZamowieniaFragment"
-            android:label="@string/title_activity_zamowienia" />
-        <activity
-            android:name=".Fragment.TowaryFragment"
-            android:label="@string/title_activity_towary" />
-        <activity
             android:name=".Activity.DodajKlientaActivity"
             android:label="@string/title_activity_dodaj_klienta" />
         <activity
@@ -32,7 +26,15 @@
             android:name=".Activity.DodajTowarActivity"
             android:label="@string/title_activity_dodaj_towar" />
         <activity android:name=".Activity.WybierzKlientaActivity" />
-        <activity android:name=".Activity.WybierzTowarActivity"></activity>
+        <activity android:name=".Activity.WybierzTowarActivity" />
+        <activity
+            android:name=".Activity.EdytujKlientaActivity"
+            android:label="@string/title_activity_edytuj_klienta"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activity.EdytujTowarActivity"
+            android:label="@string/title_activity_edytuj_towar"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

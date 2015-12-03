@@ -26,6 +26,7 @@ public class Towar implements Parcelable{
 
     public final static int REQUEST_CODE_DODAJ_TOWAR = 3;
     public final static int REQUEST_CODE_USUN_TOWARY = 4;
+    public final static int REQUEST_CODE_EDYTUJ_TOWAR = 12;
     public final static int RESULT_CODE_OK = 1;
 
     public Towar(String nazwa, Float cena, Float dostepne, Integer regal, Integer polka) {

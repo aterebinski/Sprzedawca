@@ -21,7 +21,9 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import com.example.adam.sprzedawca.Activity.DodajTowarActivity;
+import com.example.adam.sprzedawca.Activity.EdytujTowarActivity;
 import com.example.adam.sprzedawca.Adapter.TowaryRowAdapter;
+import com.example.adam.sprzedawca.Db.SortTowarByName;
 import com.example.adam.sprzedawca.Model.Towar;
 import com.example.adam.sprzedawca.R;
 
@@ -32,6 +34,7 @@ public class TowaryFragment extends Fragment {
     ListView lista;
     List<Towar> towary;
     TowaryRowAdapter adapter;
+    Towar editedTowar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -46,6 +49,7 @@ public class TowaryFragment extends Fragment {
         towary = Towar.dajWszystkie(faActivity.getApplicationContext());
 
         adapter = new TowaryRowAdapter(faActivity.getApplicationContext(), R.layout.row_towary, towary);
+        adapter.sort(new SortTowarByName());
         lista.setAdapter(adapter);
 
         if (towary != null) {
@@ -79,6 +83,16 @@ public class TowaryFragment extends Fragment {
                     return true;
                 }
             });
+
+            lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    editedTowar = towary.get(position);
+                    Intent intent = new Intent(faActivity.getApplicationContext(), EdytujTowarActivity.class);
+                    intent.putExtra("towar", editedTowar);
+                    startActivityForResult(intent, Towar.REQUEST_CODE_EDYTUJ_TOWAR);
+                }
+            });
         }
 
         FloatingActionButton floatingActionButton = (FloatingActionButton) llLayout.findViewById(R.id.floatingActionButton_Towary);
@@ -104,14 +118,29 @@ public class TowaryFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         final FragmentActivity faActivity = (FragmentActivity) super.getActivity();
-        switch (requestCode){
+        switch (requestCode) {
             case Towar.REQUEST_CODE_DODAJ_TOWAR:
-                if((resultCode==Towar.RESULT_CODE_OK)&&(data.getExtras().getParcelable("towar")!=null)){
-                    Towar towar = (Towar)data.getExtras().get("towar");
+                if ((resultCode == Towar.RESULT_CODE_OK) && (data.getExtras().getParcelable("towar") != null)) {
+                    Towar towar = (Towar) data.getExtras().get("towar");
                     towar.dodajTowar(faActivity);
 
                     //dodanie towaru do adaptera i odswiezenie listView
                     adapter.add(towar);
+                    adapter.sort(new SortTowarByName());
+                    adapter.notifyDataSetChanged();
+                }
+                break;
+            case Towar.REQUEST_CODE_EDYTUJ_TOWAR:
+                if ((resultCode == Towar.RESULT_CODE_OK) && (data.getExtras().getParcelable("towar") != null)) {
+                    Towar towar = (Towar) data.getExtras().get("towar");
+                    towar.aktualizujTowar(faActivity);
+
+                    //poprawienie towaru w adapterze i odswiezenie listView
+                    int pos = adapter.getPosition(editedTowar);
+                    adapter.remove(editedTowar);
+                    adapter.insert(towar, pos);
+
+                    adapter.sort(new SortTowarByName());
                     adapter.notifyDataSetChanged();
                 }
                 break;

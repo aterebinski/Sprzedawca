@@ -4,11 +4,9 @@ import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,13 +14,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.example.adam.sprzedawca.Activity.DodajKlientaActivity;
+import com.example.adam.sprzedawca.Activity.EdytujKlientaActivity;
 import com.example.adam.sprzedawca.Adapter.KlienciRowAdapter;
+import com.example.adam.sprzedawca.Db.SortKlientByName;
 import com.example.adam.sprzedawca.Model.Klient;
 import com.example.adam.sprzedawca.R;
 
@@ -34,6 +32,7 @@ public class KlienciFragment extends Fragment {
     KlienciRowAdapter adapter;
     ListView listView;
     List<Klient> klienci;
+    Klient editedKlient;
 
 
     @Override
@@ -62,11 +61,10 @@ public class KlienciFragment extends Fragment {
         });
 
         adapter = new KlienciRowAdapter(faActivity.getApplicationContext(), R.layout.row_klienci, klienci);
+        adapter.sort(new SortKlientByName());
         listView.setAdapter(adapter);
 
         if (klienci != null) {
-
-
 
             listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 @Override
@@ -94,6 +92,16 @@ public class KlienciFragment extends Fragment {
                     return false;
                 }
             });
+
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    editedKlient = klienci.get(position);
+                    Intent intent = new Intent(faActivity.getApplicationContext(), EdytujKlientaActivity.class);
+                    intent.putExtra("klient",editedKlient);
+                    startActivityForResult(intent, Klient.REQUEST_CODE_EDYTUJ_KLIENTA);
+                }
+            });
         }
 
         // Don't use this method, it's handled by inflater.inflate() above :
@@ -116,8 +124,25 @@ public class KlienciFragment extends Fragment {
                     klient.dodajKlienta(faActivity);
                     //dodanie klienta do adaptera i odswiezenie listView
                     adapter.add(klient);
+                    adapter.sort(new SortKlientByName());
                     adapter.notifyDataSetChanged();
                 }
+                break;
+            case Klient.REQUEST_CODE_EDYTUJ_KLIENTA:
+                if((resultCode==Klient.RESULT_CODE_OK)&&(data.getExtras().getParcelable("klient")!=null)){
+                    Klient klient = (Klient)data.getExtras().get("klient");
+                    klient.aktualizujKlienta(faActivity);
+                    //poprawienie klienta w adapterze i odswiezenie listView
+                    int pos = adapter.getPosition(editedKlient);
+                    adapter.remove(editedKlient);
+                    adapter.insert(klient, pos);
+
+                    adapter.sort(new SortKlientByName());
+
+                    adapter.notifyDataSetChanged();
+                }
+                break;
+
         }
 
         super.onActivityResult(requestCode, resultCode, data);

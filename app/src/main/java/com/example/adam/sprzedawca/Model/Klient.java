@@ -28,6 +28,7 @@ public class Klient implements Parcelable{
 
     public final static int REQUEST_CODE_DODAJ_KLIENTA = 1;
     public final static int REQUEST_CODE_USUN_KLIENTOW = 2;
+    public final static int REQUEST_CODE_EDYTUJ_KLIENTA = 11;
     public final static int RESULT_CODE_OK = 1;
 
 

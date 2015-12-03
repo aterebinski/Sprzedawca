@@ -29,6 +29,7 @@ public class Zamowienie implements Parcelable {
 
     public final static int REQUEST_CODE_DODAJ_ZAMOWIENIE = 5;
     public final static int REQUEST_CODE_USUN_ZAMOWIENIA = 6;
+    public final static int REQUEST_CODE_EDYTUJ_ZAMOWIENIE = 13;
     public final static int RESULT_CODE_OK = 1;
 
     public Zamowienie(Integer id, Integer klient_id, String klient_name, Integer towar_id, String towar_name, String data, Float sztuk, Float cena, Integer del) {
