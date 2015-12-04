@@ -2,6 +2,7 @@ package com.example.adam.sprzedawca.Fragment;
 
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.DialogInterface;
@@ -172,8 +173,30 @@ import java.util.List;
 
             switch (item.getItemId()){
                 case R.id.usun_zamowienia:
-                    UsunZamowieniaFragment usunZamowieniaFragment = new UsunZamowieniaFragment();
-                    usunZamowieniaFragment.show(fragmentManager,"Usun zamowienia");
+                    ///////Ponizej stara metoda używająca odrębnych Fragmentów do wyświetlania popupów -
+//                    UsunZamowieniaFragment usunZamowieniaFragment = new UsunZamowieniaFragment();
+//                    usunZamowieniaFragment.show(fragmentManager,"Usun zamowienia");
+
+                    //Nowa wersja:
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setTitle("Usunięcie wszystkich zamówień!");
+                    builder.setMessage("Czy na pewno chcesz usunąć wszystkie zamówienia?. Ta operacja jest nieodwracalna.");
+                    builder.setPositiveButton("Tak", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Zamowienie.kasujWszystkie(getActivity().getApplicationContext());
+                            adapter.clear();
+                            adapter.notifyDataSetChanged();
+                        }
+                    });
+                    builder.setNegativeButton("Nie", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+                    Dialog dialog = builder.create();
+                    dialog.show();
                     break;
                 default:
                     return super.onOptionsItemSelected(item);

@@ -1,7 +1,5 @@
 package com.example.adam.sprzedawca.Activity;
 
-import android.app.Dialog;
-
 import android.app.Fragment;
 import android.app.FragmentManager;
 
@@ -10,19 +8,14 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.example.adam.sprzedawca.Fragment.KlienciFragment;
 import com.example.adam.sprzedawca.Fragment.TowaryFragment;
-import com.example.adam.sprzedawca.Fragment.UsunKlientowFragment;
-import com.example.adam.sprzedawca.Fragment.UsunTowaryFragment;
-import com.example.adam.sprzedawca.Fragment.UsunZamowieniaFragment;
 import com.example.adam.sprzedawca.Fragment.ZamowieniaFragment;
 import com.example.adam.sprzedawca.R;
 
@@ -106,26 +99,27 @@ public class SprzedawcaActivity extends AppCompatActivity {
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
+        return super.onOptionsItemSelected(item);
         // Handle your other action bar items...
-        FragmentManager fragmentManager = getFragmentManager();
-
-        switch (item.getItemId()){
-            case R.id.usun_zamowienia:
-                UsunZamowieniaFragment usunZamowieniaFragment = new UsunZamowieniaFragment();
-                usunZamowieniaFragment.show(fragmentManager,"Usun zamowienia");
-                break;
-            case R.id.usun_klientow:
-                UsunKlientowFragment usunKlientowFragment = new UsunKlientowFragment();
-                usunKlientowFragment.show(fragmentManager,"Usun klientow");
-                break;
-            case R.id.usun_towary:
-                UsunTowaryFragment usunTowaryFragment = new UsunTowaryFragment();
-                usunTowaryFragment.show(fragmentManager,"Usun towary");
-                break;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-        return true;
+//        FragmentManager fragmentManager = getFragmentManager();
+//
+//        switch (item.getItemId()){
+//            case R.id.usun_zamowienia:
+//                UsunZamowieniaFragment usunZamowieniaFragment = new UsunZamowieniaFragment();
+//                usunZamowieniaFragment.show(fragmentManager,"Usun zamowienia");
+//                break;
+//            case R.id.usun_klientow:
+//                UsunKlientowFragment_old usunKlientowFragment = new UsunKlientowFragment_old();
+//                usunKlientowFragment.show(fragmentManager,"Usun klientow");
+//                break;
+//            case R.id.usun_towary:
+//                UsunTowaryFragment usunTowaryFragment = new UsunTowaryFragment();
+//                usunTowaryFragment.show(fragmentManager,"Usun towary");
+//                break;
+//            default:
+//                return super.onOptionsItemSelected(item);
+//        }
+//        return true;
     }
 
 //    @Override

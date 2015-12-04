@@ -1,4 +1,4 @@
-package com.example.adam.sprzedawca.Fragment;
+package com.example.adam.sprzedawca.Old;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -10,7 +10,7 @@ import android.support.v4.app.DialogFragment;
 /**
  * Created by Adam on 2015-11-26.
  */
-public class UsunTowarFragment extends DialogFragment {
+public class UsunTowarFragment_del extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {

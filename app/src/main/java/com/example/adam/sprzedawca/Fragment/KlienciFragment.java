@@ -1,6 +1,7 @@
 package com.example.adam.sprzedawca.Fragment;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.DialogInterface;
@@ -8,6 +9,7 @@ import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -156,6 +158,12 @@ public class KlienciFragment extends Fragment {
         inflater.inflate(R.menu.menu_klienci,menu);
     }
 
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        return super.onOptionsItemSelected(item);
+//    }
+
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -169,12 +177,37 @@ public class KlienciFragment extends Fragment {
         }
 
         // Handle your other action bar items...
+        final FragmentActivity faActivity = (FragmentActivity) super.getActivity();
+
         FragmentManager fragmentManager = getFragmentManager();
 
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.usun_klientow:
-                UsunKlientowFragment usunKlientowFragment = new UsunKlientowFragment();
-                usunKlientowFragment.show(fragmentManager,"Usun klientow");
+                ///////Ponizej stara metoda używająca odrębnych Fragmentów do wyświetlania popupów -
+//                UsunKlientowFragment usunKlientowFragment = new UsunKlientowFragment();
+//                usunKlientowFragment.show(fragmentManager,"Usun klientow");
+
+                //////Nowa wersja:
+                AlertDialog.Builder builder = new AlertDialog.Builder(faActivity);
+                builder.setTitle("Usunięcie wszystkich klientów!");
+                builder.setMessage("Czy na pewno chcesz usunąć wszystkich klientów?. Ta operacja jest nieodwracalna.");
+                builder.setPositiveButton("Tak", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Klient.kasujWszystkie(getActivity().getApplicationContext());
+                        adapter.clear();
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+                builder.setNegativeButton("Nie", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                Dialog dialog = builder.create();
+                dialog.show();
+
                 break;
             default:
                 return super.onOptionsItemSelected(item);
