@@ -2,6 +2,7 @@ package com.example.adam.sprzedawca.Fragment;
 
 import android.app.AlertDialog;
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
@@ -45,6 +46,8 @@ public class TowaryFragment extends Fragment {
         // the class, just initialize them here
 
         // Content of previous onCreate() here
+
+        setHasOptionsMenu(true);
         lista = (ListView) llLayout.findViewById(R.id.listView_Towary);
         towary = Towar.dajWszystkie(faActivity.getApplicationContext());
 
@@ -154,7 +157,7 @@ public class TowaryFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_towary,menu);
     }
 
 //    @Override
@@ -176,6 +179,17 @@ public class TowaryFragment extends Fragment {
             return true;
         }
 
-        return super.onOptionsItemSelected(item);
+        // Handle your other action bar items...
+        FragmentManager fragmentManager = getFragmentManager();
+
+        switch (item.getItemId()){
+            case R.id.usun_towary:
+                UsunTowaryFragment usunTowaryFragment = new UsunTowaryFragment();
+                usunTowaryFragment.show(fragmentManager,"Usun towary");
+                break;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+        return true;
     }
 }

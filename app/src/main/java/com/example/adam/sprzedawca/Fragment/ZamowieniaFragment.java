@@ -3,6 +3,7 @@ package com.example.adam.sprzedawca.Fragment;
 
 import android.app.AlertDialog;
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.Nullable;
@@ -13,6 +14,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,6 +50,8 @@ import java.util.List;
         // the class, just initialize them here
 
         // Content of previous onCreate() here
+        setHasOptionsMenu(true);
+
         ArrayList<String> sZamownienia= new ArrayList<>();
 //        ListView listView = (ListView) super.getActivity().findViewById(R.id.listView_Klienci);
         listView = (ListView) llLayout.findViewById(R.id.lV_Zamowienia);
@@ -153,5 +157,27 @@ import java.util.List;
 
             }
             super.onActivityResult(requestCode, resultCode, data);
+        }
+
+        @Override
+        public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+            inflater.inflate(R.menu.menu_zamowienia, menu);
+//            super.onCreateOptionsMenu(menu, inflater);
+        }
+
+        @Override
+        public boolean onOptionsItemSelected(MenuItem item) {
+
+            FragmentManager fragmentManager = getFragmentManager();
+
+            switch (item.getItemId()){
+                case R.id.usun_zamowienia:
+                    UsunZamowieniaFragment usunZamowieniaFragment = new UsunZamowieniaFragment();
+                    usunZamowieniaFragment.show(fragmentManager,"Usun zamowienia");
+                    break;
+                default:
+                    return super.onOptionsItemSelected(item);
+            }
+            return true;
         }
     }

@@ -75,6 +75,11 @@ public class DodajZamowienieActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         if(bundle!=null){ //jesli to edytowanie a nie dodawanie to jest obiekt budle przekazywany przez parcel
 //            Log.e("Zamowienie", "Edytowanie!!!!!!!!!!!!!!");
+
+            //zmiana tytułu
+            setTitle("Edytuj Zamówienie");
+            btnZatwierdz.setText("Zatwierdź");
+
             zamowienie = bundle.getParcelable("zamowienie");
                         Log.e("Zamowienie", "Edytowanie!!!!!!!! Towar.id="+zamowienie.getTowar_id()+". Klient.id="+zamowienie.getKlient_id());
             towar = new Towar();
@@ -82,6 +87,7 @@ public class DodajZamowienieActivity extends AppCompatActivity {
             klient = new Klient();
             klient.wczytajKlienta(getApplicationContext(),zamowienie.getKlient_id());
             fieldCena.setText(zamowienie.getCena().toString());
+            fieldSztuk.setText(zamowienie.getSztuk().toString());
             DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
             try {
                 Date date = dateFormat.parse(zamowienie.getData());
@@ -92,11 +98,7 @@ public class DodajZamowienieActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-//            int dzien = getDay(zamowienie.getData());
-//            int miesiac = getMonth(zamowienie.getData());
-//            int rok = getYear(zamowienie.getData());
 
-            fieldSztuk.setText(zamowienie.getSztuk().toString());
 
             TextView tvKlient = (TextView)findViewById(R.id.tV_wybranyKlient);
             tvKlient.setText(zamowienie.getKlient_name());
