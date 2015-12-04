@@ -101,7 +101,7 @@ import java.util.List;
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     editedZamowienie = zamowienia.get(position);
                     Intent intent = new Intent(faActivity.getApplicationContext(), DodajZamowienieActivity.class);
-                    intent.putExtra("towar", editedZamowienie);
+                    intent.putExtra("zamowienie", editedZamowienie);
                     startActivityForResult(intent, Zamowienie.REQUEST_CODE_EDYTUJ_ZAMOWIENIE);
                 }
             });

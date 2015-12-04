@@ -20,12 +20,20 @@ import com.example.adam.sprzedawca.Model.Towar;
 import com.example.adam.sprzedawca.Model.Zamowienie;
 import com.example.adam.sprzedawca.R;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class DodajZamowienieActivity extends AppCompatActivity {
     private Klient klient;
     private Towar towar;
     private Zamowienie zamowienie;
+    EditText fieldCena;
+    EditText fieldSztuk;
+    DatePicker fieldData;
 
     int requestCode;
 
@@ -37,9 +45,10 @@ public class DodajZamowienieActivity extends AppCompatActivity {
         klient=null;
         towar=null;
 
-        final EditText fieldSztuk = (EditText)findViewById(R.id.editText_addZamowienie_sztuk);
-        final EditText fieldCena = (EditText)findViewById(R.id.editText_addZamowienie_cena);
-        final DatePicker fieldData = (DatePicker)findViewById(R.id.datePicker);
+
+        fieldSztuk = (EditText)findViewById(R.id.editText_addZamowienie_sztuk);
+        fieldCena = (EditText)findViewById(R.id.editText_addZamowienie_cena);
+        fieldData = (DatePicker)findViewById(R.id.datePicker);
         Button btnWybierzKlienta = (Button)findViewById(R.id.bt_wybierzKlienta);
         Button btnWybierzTowar = (Button)findViewById(R.id.bt_wybierzTowar);
         Button btnZatwierdz = (Button)findViewById(R.id.button_addZamowienie_zatwierdz);
@@ -64,17 +73,35 @@ public class DodajZamowienieActivity extends AppCompatActivity {
         List<Klient> klienci = Klient.dajWszystkie(getApplicationContext());
 
         Bundle bundle = getIntent().getExtras();
-        if(bundle!=null){
-            Log.e("Zamowienie", "Edytowanie!!!!!!!!!!!!!!");
+        if(bundle!=null){ //jesli to edytowanie a nie dodawanie to jest obiekt budle przekazywany przez parcel
+//            Log.e("Zamowienie", "Edytowanie!!!!!!!!!!!!!!");
             zamowienie = bundle.getParcelable("zamowienie");
+                        Log.e("Zamowienie", "Edytowanie!!!!!!!! Towar.id="+zamowienie.getTowar_id()+". Klient.id="+zamowienie.getKlient_id());
+            towar = new Towar();
+            towar.wczytajTowar(getApplicationContext(),zamowienie.getTowar_id());
+            klient = new Klient();
+            klient.wczytajKlienta(getApplicationContext(),zamowienie.getKlient_id());
             fieldCena.setText(zamowienie.getCena().toString());
-//            fieldData.s
+            DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+            try {
+                Date date = dateFormat.parse(zamowienie.getData());
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(date);
+                fieldData.init(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH),null);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+//            int dzien = getDay(zamowienie.getData());
+//            int miesiac = getMonth(zamowienie.getData());
+//            int rok = getYear(zamowienie.getData());
+
             fieldSztuk.setText(zamowienie.getSztuk().toString());
 
             TextView tvKlient = (TextView)findViewById(R.id.tV_wybranyKlient);
-            tvKlient.setText(klient.getNazwa());
+            tvKlient.setText(zamowienie.getKlient_name());
             TextView tvTowar = (TextView)findViewById(R.id.tV_wybranyTowar);
-            tvTowar.setText(towar.getNazwa());
+            tvTowar.setText(zamowienie.getTowar_name());
         }
 
         btnZatwierdz.setOnClickListener(new View.OnClickListener() {
@@ -153,5 +180,26 @@ public class DodajZamowienieActivity extends AppCompatActivity {
     private String showDate(int day, int month, int year) {
         return ""+day+"-"+(month+1)+"-"+year;
 
+    }
+
+    private int getDay(String date)
+    {
+        String dzien = date.substring(0,1);
+        Log.e("Dzien","Dzien =>"+dzien+"<");
+        return Integer.parseInt(dzien);
+    }
+
+    private int getMonth(String date)
+    {
+        String miesiac = date.substring(3,4);
+        Log.e("Dzien","Miesiac =>"+miesiac+"<");
+        return Integer.parseInt(miesiac);
+    }
+
+    private int getYear(String date)
+    {
+        String rok = date.substring(6,9);
+        Log.e("Rok","Rok =>"+rok+"<");
+        return Integer.parseInt(rok);
     }
 }

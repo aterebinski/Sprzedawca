@@ -242,16 +242,9 @@ public class Klient implements Parcelable{
         String[] kolumny = {"id","nazwa","adres","miejscowosc","kod","nip","regon","telefon","del"};
         String[] args = {""+id};
 
-        Cursor cursor = db.query("klienci",kolumny,"id = ? , del = 0",args, null, null, null);
+        Cursor cursor = db.query("klienci",kolumny,"id = ?",args, null, null, null);
         if (cursor != null) {
-//            klient.setId(cursor.getInt(0));
-//            klient.setNazwa(cursor.getString(0));
-//            klient.setAdres(cursor.getString(1));
-//            klient.setMiejscowosc(cursor.getString(2));
-//            klient.setKod(cursor.getString(3));
-//            klient.setNip(cursor.getString(4));
-//            klient.setRegon(cursor.getString(5));
-//            klient.setTelefon(cursor.getString(6));
+            cursor.moveToFirst();
 
             setId(cursor.getInt(0));
             setNazwa(cursor.getString(1));

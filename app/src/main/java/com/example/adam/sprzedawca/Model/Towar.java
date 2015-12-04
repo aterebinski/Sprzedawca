@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import com.example.adam.sprzedawca.Db.DbHelper;
 
@@ -219,12 +220,7 @@ public class Towar implements Parcelable{
 
         Cursor kursor = db.query("towary",kolumny,"id=?",args,null, null, null);
         if (kursor != null) {
-//            setId(kursor.getInt(0));
-//            setNazwa(kursor.getString(0));
-//            setCena(kursor.getFloat(0));
-//            setDostepne(kursor.getFloat(1));
-//            setRegal(kursor.getInt(1));
-//            setPolka(kursor.getInt(2));
+            kursor.moveToFirst();
 
             setId(kursor.getInt(0));
             setNazwa(kursor.getString(1));
