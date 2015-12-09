@@ -2,6 +2,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".Fragment.KlienciFragment">
+    <item android:id="@+id/edytuj_klienta" android:title="Edytuj" android:orderInCategory="10"
+        android:enabled="false" app:showAsAction="always" />
+    <item android:id="@+id/pokaz_mape" android:title="Pokaż na mapie" android:orderInCategory="20"
+        android:enabled="false" app:showAsAction="always" />
+    <item android:id="@+id/zadzwon" android:title="Zadzwoń" android:orderInCategory="30"
+        android:enabled="false" app:showAsAction="always" />
     <item android:id="@+id/usun_klientow" android:title="@string/usun_klientow"
         android:orderInCategory="100" app:showAsAction="never" />
 </menu>

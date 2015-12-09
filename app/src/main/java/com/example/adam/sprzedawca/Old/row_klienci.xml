@@ -2,8 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/menu_item_background_selector"
-    >
+    android:background="@drawable/menu_item_background_selector">
 
     <TextView
         android:layout_width="wrap_content"
@@ -11,8 +10,8 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Medium Text"
         android:id="@+id/textView_row_klienci"
-        android:textColor="@drawable/menu_item_text_selector"
-/>
+        android:textColor="@drawable/menu_item_text_selector" />
+        <!--android:textColor="@android:color/darker_gray" />-->
 
 
     <TextView
@@ -21,7 +20,8 @@
         android:text="New Text"
         android:id="@+id/textView_row_klienci_2"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@drawable/menu_item_text_selector"/>
+        android:textColor="@drawable/menu_item_text_selector" />
+        <!--android:textColor="@android:color/darker_gray" />-->
 
     <TextView
         android:layout_width="wrap_content"
@@ -29,5 +29,6 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Small Text"
         android:id="@+id/textView_row_klienci_3"
-        android:textColor="@drawable/menu_item_text_selector"/>
+        android:textColor="@drawable/menu_item_text_selector" />
+        <!--android:textColor="@android:color/darker_gray" />-->
 </LinearLayout>

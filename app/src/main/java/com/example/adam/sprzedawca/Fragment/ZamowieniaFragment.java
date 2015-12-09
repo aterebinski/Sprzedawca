@@ -97,7 +97,7 @@ import java.util.List;
                     AlertDialog alertDialog = builder.create();
                     alertDialog.show();
 
-                    return false;
+                    return true;
                 }
             });
 

@@ -19,8 +19,8 @@
     <string name="adres">Adres:</string>
     <string name="miejscowosc">Miejscowość:</string>
     <string name="kod">Kod:</string>
-    <string name="drawer_open">OPen</string>
-    <string name="drawer_close">CLose</string>
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
     <string name="nip">NIP:</string>
     <string name="regon">REGON:</string>
     <string name="telefon">Telefon:</string>

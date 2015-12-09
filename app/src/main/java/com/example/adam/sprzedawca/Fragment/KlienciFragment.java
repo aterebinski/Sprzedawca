@@ -4,11 +4,14 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.ClipData;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v7.internal.view.menu.MenuView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -16,7 +19,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
@@ -36,6 +42,10 @@ public class KlienciFragment extends Fragment {
     ListView listView;
     List<Klient> klienci;
     Klient editedKlient;
+    boolean itemSelected = false;
+//    boolean itemZadzwonSelected = false;
+//    boolean itemPokazMapeSelected = false;
+    Menu menu;
 
 
     @Override
@@ -53,6 +63,23 @@ public class KlienciFragment extends Fragment {
 
         listView = (ListView) llLayout.findViewById(R.id.listView_Klienci);
 
+        //ponizej: Włączenie obsługi zaznaczania poszczególnych elementów ListView (select) w celu wykonywania akcji
+        //na poszczególnych rekordach (edytowanie, dzwonienie do klienta, lokalizacja GPS). Aby to zadziałało należało
+        //jeszcze dodać w pliku >>row_klienci.xml<< wpis:
+        //>>android:background="@drawable/menu_item_background_selector"<<
+        //dla layoutu(zmiana koloru tła zaznaczonego rekordu) i wpis
+        //>>android:textColor="@drawable/menu_item_text_selector"<<
+        //dla poszczególnych TextView (zmiana koloru tekstu zaznaczonego rekordu).
+        //Należało także dodać pliki >>menu_item_background_selector.xml<< i >>menu_item_text_selector.xml<<,
+        //zawierające konfigurację kolorów tła i tekstu dla klikniętych i nieklikniętych rekordów, do katalogu >>res/drawable<<
+        //(za http://stackoverflow.com/questions/10788688/programmatically-select-item-listview-in-android ze zmianami autorstwa Quetina Klein'a
+        // z dnia 26-05-2014 19:37 w komentarzach -  należało zamienić w pliku >>menu_item_background_selector.xml<< znaczniki z
+        // >>android:color="#0094CE"<< i >>android:color="#0094CE"<< na >>android:drawable="@color/darkblue"<< i >>android:drawable="@color/orange"<<,
+        // ponieważ wyskakiwał błąd >>XML Inflate exception<<.
+        // Aby działało >>android:drawable="@color/jakis_kolor"<< trzeba było dodać plik >>colors.xml<< z kolorami do katalogu >>res/values<<.
+        // W moim przypadku uzupełniłem ten plik wpisami z http://developer.android.com/samples/BasicMediaRouter/res/values/colors.html)
+        listView.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
+
         klienci = Klient.dajWszystkie(super.getActivity().getApplicationContext());
 
         FloatingActionButton floatingActionButton = (FloatingActionButton) llLayout.findViewById(R.id.floatingActionButton_Klienci);
@@ -64,6 +91,7 @@ public class KlienciFragment extends Fragment {
 //                listView.deferNotifyDataSetChanged();
             }
         });
+
 
         adapter = new KlienciRowAdapter(faActivity.getApplicationContext(), R.layout.row_klienci, klienci);
         adapter.sort(new SortKlientByName());
@@ -89,6 +117,10 @@ public class KlienciFragment extends Fragment {
                     builder.setNegativeButton("Nie", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            MenuView.ItemView itemEdytuj = (MenuView.ItemView)faActivity.findViewById(R.id.edytuj_klienta);
+                            itemEdytuj.setEnabled(true);
+                            MenuView.ItemView itemZadzwon = (MenuView.ItemView)faActivity.findViewById(R.id.zadzwon);
+                            itemZadzwon.setEnabled(true);
 
                         }
                     });
@@ -101,12 +133,23 @@ public class KlienciFragment extends Fragment {
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    editedKlient = klienci.get(position);
-                    Intent intent = new Intent(faActivity.getApplicationContext(), EdytujKlientaActivity.class);
-                    intent.putExtra("klient",editedKlient);
-                    startActivityForResult(intent, Klient.REQUEST_CODE_EDYTUJ_KLIENTA);
+                    itemSelected = true;
+
+                    onPrepareOptionsMenu(menu);
+                    // lub:
+                    //faActivity.invalidateOptionsMenu();
                 }
             });
+
+//            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                @Override
+//                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                    editedKlient = klienci.get(position);
+//                    Intent intent = new Intent(faActivity.getApplicationContext(), EdytujKlientaActivity.class);
+//                    intent.putExtra("klient",editedKlient);
+//                    startActivityForResult(intent, Klient.REQUEST_CODE_EDYTUJ_KLIENTA);
+//                }
+//            });
         }
 
         // Don't use this method, it's handled by inflater.inflate() above :
@@ -156,9 +199,20 @@ public class KlienciFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_klienci,menu);
+        this.menu = menu;
     }
 
-//    @Override
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+//        super.onPrepareOptionsMenu(menu);
+        if(itemSelected){
+            menu.getItem(0).setEnabled(true);
+            menu.getItem(1).setEnabled(true);
+            menu.getItem(2).setEnabled(true);
+        }
+    }
+
+    //    @Override
 //    public boolean onOptionsItemSelected(MenuItem item) {
 //        return super.onOptionsItemSelected(item);
 //    }
@@ -178,6 +232,8 @@ public class KlienciFragment extends Fragment {
 
         // Handle your other action bar items...
         final FragmentActivity faActivity = (FragmentActivity) super.getActivity();
+        Intent intent;
+        int position;
 
         FragmentManager fragmentManager = getFragmentManager();
 
@@ -208,6 +264,29 @@ public class KlienciFragment extends Fragment {
                 Dialog dialog = builder.create();
                 dialog.show();
 
+                break;
+            case R.id.edytuj_klienta:
+                position = listView.getCheckedItemPosition();
+                editedKlient = klienci.get(position);
+                intent = new Intent(faActivity.getApplicationContext(), EdytujKlientaActivity.class);
+                intent.putExtra("klient",editedKlient);
+                startActivityForResult(intent, Klient.REQUEST_CODE_EDYTUJ_KLIENTA);
+                break;
+            case R.id.zadzwon:
+                position = listView.getCheckedItemPosition();
+                editedKlient = klienci.get(position);
+                String phoneNr = editedKlient.getTelefon();
+                intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phoneNr));
+                startActivity(intent);
+                break;
+            case R.id.pokaz_mape:
+                position = listView.getCheckedItemPosition();
+                editedKlient = klienci.get(position);
+//                String uri = "geo:0,0?q=Mikołowska+Katowice";
+                String uri = "geo:0,0?q="+editedKlient.getAdres()+"+"+editedKlient.getMiejscowosc();
+                intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri));
+                intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
+                startActivity(intent);
                 break;
             default:
                 return super.onOptionsItemSelected(item);
